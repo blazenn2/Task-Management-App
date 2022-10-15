@@ -1,6 +1,9 @@
+import AppWrapper from "./components/Wrappers/AppWrapper";
+
 function App() {
   return (
     <>
+      <AppWrapper />
     </>
   );
 }
