@@ -7,8 +7,8 @@ const Navigation = () => {
     return (
         <div className='w-full h-14 bg-gradient-to-r from-blue-400 to-indigo-300 flex justify-between'>
             <div className="w-1/3 h-full flex items-center">
-                <div className="w-1/3 bg-indigo-400 h-full flex items-center justify-center">
-                    <img src="./logo-light.svg" alt="" className='h-5 w-25' />
+                <div className="w-1/3 h-full flex items-center justify-center">
+                    {/* <img src="./logo-light.svg" alt="" className='h-5 w-25' /> */}
                 </div>
                 <div className="w-2/3 h-1/2 flex items-center relative ml-5">
                     <FiSearch className='text-white absolute' />
