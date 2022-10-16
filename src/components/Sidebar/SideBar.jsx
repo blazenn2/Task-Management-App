@@ -3,10 +3,13 @@ import IconsData from './IconData'
 import SidebarOption from './SidebarOption';
 import * as Icons from 'react-icons/io';
 import { IconContext } from "react-icons";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const SideBar = () => {
-    const [isActive, setIsActive] = useState(null);
+    let activeLocation = null;
+    const location = useLocation();
+    if (location.pathname.split("/")[1] && location.pathname.split("/")[1] !== "") IconsData.forEach((value, i) => value.title.toLowerCase() === location.pathname.split("/")[1] && (activeLocation = i))
+    const [isActive, setIsActive] = useState(activeLocation);
     return (
         <div className='w-[10%] bg-white h-full absolute top-0 z-0 flex flex-col'>
             <div className="bg-indigo-400 min-h-fit w-full flex items-center justify-center">
