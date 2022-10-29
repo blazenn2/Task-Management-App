@@ -1,6 +1,6 @@
 import React from 'react'
-import Navigation from '../Navigation/Navigation'
-import SideBar from '../Sidebar/SideBar'
+import Navigation from '../navigation'
+import SideBar from '../side-bar'
 
 const AppWrapper = (props) => {
     return (

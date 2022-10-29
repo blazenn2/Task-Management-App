@@ -1,6 +1,6 @@
 import React from 'react'
 import { FiSearch } from "react-icons/fi";
-import { FaUserAlt } from "react-icons/fa";
+import UserCircle from '../user-picture';
 
 
 const Navigation = () => {
@@ -17,7 +17,7 @@ const Navigation = () => {
             </div>
             <div className="flex items-center md:pr-10 pr-5">
                 <div className="text-white pr-2 md:text-base text-sm">Hamza Nawab</div>
-                <button className="md:p-3 p-1 bg-gray-300 rounded-full"><FaUserAlt className='text-white p-1 md:p-0' /></button>
+                <UserCircle />
             </div>
         </div>
     )

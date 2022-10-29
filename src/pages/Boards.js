@@ -1,5 +1,5 @@
 import React from 'react'
-import CardHolder from '../components/CardHolder/CardHolder';
+import CardHolder from '../components/card-holder';
 
 const Boards = () => {
     console.log("Boards");

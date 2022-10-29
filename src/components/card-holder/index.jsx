@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from '../Card/Card'
+import Card from '../card'
 import { FiX } from "react-icons/fi";
 
 const CardHolder = () => {
@@ -12,7 +12,7 @@ const CardHolder = () => {
                     <FiX className='text-gray-500' />
                 </button>
             </div>
-            <Card />
+            <Card text="Company web redesign" />
         </div>
     )
 }

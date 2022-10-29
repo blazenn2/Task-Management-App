@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import AppWrapper from "./components/Wrappers/AppWrapper";
+import AppWrapper from "./components/wrappers/AppWrapper";
 import Index from "./pages/Index";
 import Manage from "./pages/Manage";
 import Reports from "./pages/Reports";
