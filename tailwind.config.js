@@ -31,6 +31,12 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       violet: colors.violet,
+      amber: colors.amber,
+      red: colors.red,
+      green: colors.green,
+      lime: colors.lime,
+      pink: colors.pink,
+      orange: colors.orange,
     },
     extend: {
       backgroundImage: {}

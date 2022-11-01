@@ -1,18 +1,28 @@
-import React from 'react'
-import CardHolder from '../components/card-holder';
+import React, { useEffect, useState } from 'react'
+import CardHolder from '../components/card-holder'
+import { motion, AnimatePresence } from "framer-motion"
 
 const Boards = () => {
-    console.log("Boards");
+    const [boardData, setBoardData] = useState([]);
+
+    useEffect(() => {
+        setBoardData([
+            { title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
+            { title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
+            { title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1 }, { text: "Social media posts.", piority: 2 }, { text: "Shopping cart and product catalog wireframes.", piority: 0 }, { text: "End user flow charts.", piority: 1 }] },
+            { title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0 }, { text: "Navigation designs.", piority: 1 }, { text: "User profile prototypes.", piority: 2 }, { text: "Create style guide based on previous feedback.", piority: 2 }] }
+        ])
+    }, []);
+
     return (
-        <div className="absolute right-0 w-[90%] h-full py-3 px-6 bg-violet-100">
-            <div className="w-full py-5 mb-3 text-3xl text-gray-500">Studio Board</div>
-            <div className='flex flex-wrap items-start justify-between'>
-                <CardHolder />
-                <CardHolder />
-                <CardHolder />
-                <CardHolder />
-            </div>
-        </div>
+        <AnimatePresence>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute flex grow flex-col right-0 w-[90%] py-3 px-6 bg-violet-100">
+                <div className="w-full py-5 mb-3 text-3xl text-gray-500">Studio Board</div>
+                <div className='flex flex-wrap items-start justify-between'>
+                    {boardData.map((value, i) => <CardHolder key={i} title={value.title} card={value.cards} />)}
+                </div>
+            </motion.div>
+        </AnimatePresence>
     )
 }
 

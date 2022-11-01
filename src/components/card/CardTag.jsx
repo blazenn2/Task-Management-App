@@ -1,8 +1,8 @@
-import React from 'react'
+import { cardTagCSS } from './TagCSS'
 
-const CardTag = () => {
+const CardTag = (props) => {
     return (
-        <div className='text-xs bg-gradient-to-br from-blue-300 to-indigo-500 p-1 rounded-sm text-white w-2/5 text-center font-bold'>Low Piority</div>
+        <div className={cardTagCSS(props.piority)}>{props.piority === 0 ? "Low Piority" : (props.piority === 1 ? "Medium Piority" : "High Piority")}</div>
     )
 }
 

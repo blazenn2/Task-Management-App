@@ -1,12 +1,14 @@
 import React from 'react'
-// import AppWrapper from '../components/Wrappers/AppWrapper'
+import { motion, AnimatePresence } from "framer-motion"
 
 const Manage = () => {
-    console.log("manage");
+
     return (
-        <div>
-            {/* <AppWrapper /> */}
-        </div>
+        <AnimatePresence>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute right-0 w-[90%] h-full py-3 px-6 bg-violet-100">
+            <h1>This is manage</h1>
+            </motion.div>
+        </AnimatePresence>
     )
 }
 
