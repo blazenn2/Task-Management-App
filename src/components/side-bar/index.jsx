@@ -11,12 +11,12 @@ const SideBar = () => {
     if (location.pathname.split("/")[1] && location.pathname.split("/")[1] !== "") IconsData.forEach((value, i) => value.title.toLowerCase() === location.pathname.split("/")[1] && (activeLocation = i))
     const [isActive, setIsActive] = useState(activeLocation);
     return (
-        <div className='w-[10%] bg-white h-full absolute top-0 z-0 flex flex-col'>
+        <div className='md:w-[10%] w-2/12 bg-white h-full md:-translate-y-16 -translate-y-11 z-0 flex flex-col'>
             <div className="bg-indigo-400 min-h-fit w-full flex items-center justify-center">
-                <Link to="/"><img src="./logo-light.svg" alt="" className='h-6 w-25 my-4 px-4 hidden md:block cursor-pointer' onClick={() => setIsActive(null)} /></Link>
-                <Link to="/"><img src="./mobile-logo.svg" alt="" className='h-5 w-25 m-3 px-3 md:hidden block cursor-pointer' onClick={() => setIsActive(null)} /></Link>
+                <Link to="/"><img src="./logo-light.svg" alt="" className='h-8 my-4 px-4 hidden md:block cursor-pointer' onClick={() => setIsActive(null)} /></Link>
+                <Link to="/"><img src="./mobile-logo.svg" alt="" className='h-5 m-3 px-3 md:hidden block cursor-pointer' onClick={() => setIsActive(null)} /></Link>
             </div>
-            <div className="w-full h-full flex flex-col justify-between">
+            <div className="w-full h-full md:min-h-[34rem] flex flex-col justify-between">
                 <div className="">{IconsData.map((item, index) => <SidebarOption item={item} key={index} index={index} active={(isActive === index ? true : false)} setActive={setIsActive} route={item.title.toLowerCase()} />)}</div>
                 <Link to="/settings">
                     <button className={`w-full h-24 flex items-center justify-center flex-col group ease-in-out duration-150 ${isActive === IconsData.length ? "md:border-l-8 border-l-2 border-indigo-400 -ml-1" : ""} `} onClick={() => setIsActive(IconsData.length)}>

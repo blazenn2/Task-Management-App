@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 const AppWrapper = (props) => {
     return (
-        <div className='h-screen'>
+        <div className='h-screen flex flex-wrap grow'>
             <Navigation />
             <SideBar />
             {props.children}

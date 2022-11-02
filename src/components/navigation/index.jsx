@@ -5,8 +5,8 @@ import UserCircle from '../user-picture';
 
 const Navigation = () => {
     return (
-        <div className='w-full md:h-14 h-11 bg-gradient-to-r from-blue-400 to-indigo-300 flex justify-between'>
-            <div className="w-1/3 h-full flex items-center">
+        <div className='w-full md:h-[10%] h-[7%] md:min-h-[4rem] min-h-[2.75rem] bg-gradient-to-r from-blue-400 to-indigo-300 flex justify-between'>
+            <div className="md:w-1/3 md:pl-0 w-1/2 pl-5 h-full flex items-center">
                 <div className="w-1/3 h-full flex items-center justify-center">
                     {/* <img src="./logo-light.svg" alt="" className='h-5 w-25' /> */}
                 </div>
@@ -16,7 +16,7 @@ const Navigation = () => {
                 </div>
             </div>
             <div className="flex items-center md:pr-10 pr-5">
-                <div className="text-white pr-2 md:text-base text-sm">Hamza Nawab</div>
+                <div className="text-white pr-2 md:text-base md:visible invisible">Hamza Nawab</div>
                 <UserCircle />
             </div>
         </div>
