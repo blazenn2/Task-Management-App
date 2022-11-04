@@ -1,1 +1,1 @@
-export const cardTagCSS = (piority) => `text-xs bg-gradient-to-br ${piority === 0 ? "from-blue-300 to-indigo-500" : (piority === 1 ? "from-green-300 to-blue-300" : "from-red-400 to-amber-400")} p-1 rounded-sm text-white w-1/2 text-center font-bold`;
+export const cardTagCSS = (piority) => `text-xs bg-gradient-to-br ${piority === 0 ? "from-blue-300 to-indigo-500" : (piority === 1 ? "from-green-300 to-blue-300" : "from-red-400 to-amber-400")} p-1 rounded-sm text-white md:w-1/2 w-3/4 text-center font-bold`;

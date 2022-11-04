@@ -8,7 +8,7 @@ const CardHolder = (props) => {
     const randomIndex = Math.floor(Math.random() * headingGradient.length);
     return (
         <AnimatePresence>
-            <motion.div key={props.index} initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 200, opacity: 0 }} transition={{ duration: 0.5 }} id={props.index} className='border w-[23%] md:min-w-[17rem] grid gap-2 shadow-md pb-2 rounded-md h-[95%] cursor-pointer'>
+            <motion.div key={props.index} initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 200, opacity: 0 }} transition={{ duration: 0.5 }} id={`board${props.index}`} className='border md:min-w-[17rem] min-w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all'>
                 <div className={`w-full h-1 rounded-t bg-gradient-to-r ${headingGradient[randomIndex]} `}></div>
                 <div className="w-11/12 justify-self-center flex items-center justify-between">
                     <h1 className="text-lg text-gray-500">{props.title}</h1>

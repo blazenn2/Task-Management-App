@@ -15,16 +15,16 @@ const Boards = () => {
     }, []);
 
     const removeBoardHandler = (index, e) => {
-        console.log(e.target.closest(`#${index}`));
-        // setTimeout(() => setBoardData(boardData.filter((_, i) => i !== index), 1000));
+        e.target.closest(`#board${index}`).style.opacity = 0;
+        setTimeout(() => { setBoardData(boardData.filter((_, i) => i !== index)) }, 200);
     };
 
     return (
         <AnimatePresence>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex grow flex-col md:w-[90%] w-10/12 md:h-[90%] h-[93%] py-3 px-6 bg-violet-100">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex grow flex-col md:w-[90%] w-10/12 max-h-[36.75rem] py-3 px-6 bg-violet-100">
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-y-auto w-full px-3'>
-                    {boardData.map((value, i) => <CardHolder key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} />)}
+                    {!!boardData.length ? boardData.map((value, i) => <CardHolder key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} />) : <h1>No boards</h1>}
                 </div>
             </motion.div>
         </AnimatePresence>
