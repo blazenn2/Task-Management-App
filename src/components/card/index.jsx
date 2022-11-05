@@ -5,7 +5,7 @@ import UserCircle from '../user-picture'
 
 const Card = (props) => {
     return (
-        <div className='bg-white md:h-32 h-36 w-11/12 rounded-md justify-self-center shadow-sm p-2 flex flex-col justify-between cursor-move'>
+        <div className='bg-white md:h-32 h-36 w-11/12 rounded-md justify-self-center shadow-sm p-2 flex flex-col justify-between cursor-move' draggable={true} onDragStart={() => props.dragStart(props.index)} onDragEnter={() => props.dragEnter(props.index)} onDragEnd={()=> props.drop()} onDragOver={(e) => e.preventDefault()} >
             <CardTag piority={props.piority} />
             <div className="text-gray-500 lg:text-base md:text-sm text-xs">{props.text}</div>
             <div className="flex justify-end">
