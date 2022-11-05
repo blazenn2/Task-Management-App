@@ -21,7 +21,7 @@ const Boards = () => {
 
     return (
         <AnimatePresence>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex grow flex-col md:w-[90%] w-10/12 max-h-[36.75rem] py-3 px-6 bg-violet-100">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-y-auto w-full px-3'>
                     {!!boardData.length ? boardData.map((value, i) => <CardHolder key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} />) : <h1>No boards</h1>}
