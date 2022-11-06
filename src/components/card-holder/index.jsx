@@ -11,15 +11,22 @@ const CardHolder = (props) => {
     const dragItem = useRef();
     const dragOverItem = useRef();
 
-    const onDragStart = (position) => {
+    const onDragStart = (position, e) => {
         dragItem.current = position;
+        e.target.classList.add("opacity-50");
     };
 
-    const onDragEnter = (position) => {
+    const onDragEnter = (position, e) => {
         dragOverItem.current = position;
+        e.target.classList.add("animate-pulse");
     };
 
-    const onDrop = () => {
+    const onDragLeave = (e) => {
+        e.target.classList.remove("animate-pulse");
+    };
+
+    const onDragEnd = (e) => {
+        if ([...e.target.classList].includes("opacity-50")) e.target.classList.remove("opacity-50");
         const tempData = [...props.data[props.index].cards];
         const dragContent = tempData[dragItem.current];
         tempData.splice(dragItem.current, 1);
@@ -31,9 +38,18 @@ const CardHolder = (props) => {
         props.changeData([...tempObject]);
     };
 
+    const onDragOver= (e) => {
+        e.preventDefault();
+        if (![...e.target.classList].includes("animate-pulse")) e.target.classList.add("animate-pulse"); 
+    };
+
+    const onDrop = (e) => {
+        if ([...e.target.classList].includes("animate-pulse")) e.target.classList.remove("animate-pulse");
+    };
+
     return (
         <AnimatePresence>
-            <motion.div key={props.index} initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 200, opacity: 0 }} transition={{ duration: 0.5 }} id={`board${props.index}`} className='border md:min-w-[17rem] min-w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all'>
+            <motion.div key={props.index} initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 200, opacity: 0 }} transition={{ duration: 0.5 }} id={`board${props.index}`} className='border md:w-[17rem] w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all'>
                 <div className={`w-full h-1 rounded-t bg-gradient-to-r ${headingGradient[randomIndex]} `}></div>
                 <div className="w-11/12 justify-self-center flex items-center justify-between">
                     <h1 className="text-lg text-gray-500">{props.title}</h1>
@@ -42,7 +58,7 @@ const CardHolder = (props) => {
                     </button>
                 </div>
                 <div className="space-y-3 w-full h-[95%] flex flex-col items-center overflow-y-scroll">
-                    {props.card?.map((value, i) => <Card key={i} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} drop={onDrop} />)}
+                    {props.card?.map((value, i) => <Card key={i} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
                 </div>
             </motion.div>
         </AnimatePresence>
