@@ -19,10 +19,18 @@ const CardHolder = (props) => {
     const onDragEnter = (position, e) => {
         dragOverItem.current = position;
         e.target.classList.add("animate-pulse");
+        e.target.classList.add("scale-110"); 
     };
 
     const onDragLeave = (e) => {
         e.target.classList.remove("animate-pulse");
+        e.target.classList.remove("scale-110");
+    };
+
+    const onDragOver= (e) => {
+        e.preventDefault();
+        if (![...e.target.classList].includes("animate-pulse")) e.target.classList.add("animate-pulse"); 
+        if (![...e.target.classList].includes("scale-110")) e.target.classList.add("scale-110"); 
     };
 
     const onDragEnd = (e) => {
@@ -38,13 +46,9 @@ const CardHolder = (props) => {
         props.changeData([...tempObject]);
     };
 
-    const onDragOver= (e) => {
-        e.preventDefault();
-        if (![...e.target.classList].includes("animate-pulse")) e.target.classList.add("animate-pulse"); 
-    };
-
     const onDrop = (e) => {
         if ([...e.target.classList].includes("animate-pulse")) e.target.classList.remove("animate-pulse");
+        if ([...e.target.classList].includes("scale-110")) e.target.classList.remove("scale-110");
     };
 
     return (
