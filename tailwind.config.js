@@ -37,6 +37,8 @@ module.exports = {
       lime: colors.lime,
       pink: colors.pink,
       orange: colors.orange,
+      slate: colors.slate,
+      stone: colors.stone,
     },
     extend: {
       backgroundImage: {}

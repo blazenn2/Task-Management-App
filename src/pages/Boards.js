@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import CardHolder from '../components/card-holder'
 import { motion, AnimatePresence } from "framer-motion"
+import Modal from '../components/modals';
+import MultipleSelectButton from '../components/dropdowns/MultipleSelectButton';
+import MultipleSelectMenu from '../components/dropdowns/MultipleSelectMenu';
 
 const Boards = () => {
     const [boardData, setBoardData] = useState([
@@ -9,7 +12,7 @@ const Boards = () => {
         { title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1 }, { text: "Social media posts.", piority: 2 }, { text: "Shopping cart and product catalog wireframes.", piority: 0 }, { text: "End user flow charts.", piority: 1 }] },
         { title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0 }, { text: "Navigation designs.", piority: 1 }, { text: "User profile prototypes.", piority: 2 }, { text: "Create style guide based on previous feedback.", piority: 2 }] },
     ]);
-    
+
     const removeBoardHandler = (index, e) => {
         e.target.closest(`#board${index}`).style.opacity = 0;
         setTimeout(() => { setBoardData(boardData.filter((_, i) => i !== index)) }, 200);
@@ -22,6 +25,16 @@ const Boards = () => {
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-y-auto w-full px-3'>
                     {boardData.length > 0 ? boardData.map((value, i) => <CardHolder key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                 </div>
+                <Modal heading="Assign/Dismiss Participants" buttonText={"Save changes"}>
+                    <div className='relative'>
+                        <MultipleSelectButton text="Select Participants" />
+                        
+                            <MultipleSelectMenu />
+                        
+
+
+                    </div>
+                </Modal>
             </motion.div>
         </AnimatePresence>
     )
