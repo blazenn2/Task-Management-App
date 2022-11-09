@@ -18,19 +18,22 @@ const CardHolder = (props) => {
 
     const onDragEnter = (position, e) => {
         dragOverItem.current = position;
-        e.target.classList.add("animate-pulse");
-        e.target.classList.add("scale-110"); 
+        if (e.target.id) e.target.classList.add("animate-pulse");
+        else e.target.closest(`#card-${position}`).classList.add("animate-pulse");
     };
 
-    const onDragLeave = (e) => {
-        e.target.classList.remove("animate-pulse");
-        e.target.classList.remove("scale-110");
+    const onDragLeave = (e, position) => {
+        if (e.target.id) e.target.classList.remove("animate-pulse");
+        else e.target.closest(`#card-${position}`).classList.remove("animate-pulse");
     };
 
-    const onDragOver= (e) => {
+    const onDragOver = (e) => {
         e.preventDefault();
-        if (![...e.target.classList].includes("animate-pulse")) e.target.classList.add("animate-pulse"); 
-        if (![...e.target.classList].includes("scale-110")) e.target.classList.add("scale-110"); 
+        if (e.target.id) {
+            if (![...e.target.classList].includes("animate-pulse")) e.target.classList.add("animate-pulse");
+        } else {
+            if (![...e.target.closest(`#card-${dragOverItem.current}`).classList].includes("animate-pulse")) e.target.closest(`#card-${dragOverItem.current}`).classList.add("animate-pulse");
+        }
     };
 
     const onDragEnd = (e) => {
@@ -46,9 +49,12 @@ const CardHolder = (props) => {
         props.changeData([...tempObject]);
     };
 
-    const onDrop = (e) => {
-        if ([...e.target.classList].includes("animate-pulse")) e.target.classList.remove("animate-pulse");
-        if ([...e.target.classList].includes("scale-110")) e.target.classList.remove("scale-110");
+    const onDrop = (e, position) => {
+        if (e.target.id) {
+            e.target.classList.remove("animate-pulse");
+        } else {
+            e.target.closest(`#card-${position}`).classList.remove("animate-pulse");
+        }
     };
 
     return (
