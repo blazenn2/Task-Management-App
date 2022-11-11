@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import CardHolder from '../components/card-holder'
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from '../components/modals';
 import MultipleSelectButton from '../components/dropdowns/MultipleSelectButton';
 import MultipleSelectMenu from '../components/dropdowns/MultipleSelectMenu';
+import CheckBox from '../components/inputs/checkbox';
+import { rotateArrowOfButton, toggleDropdownMenu } from '../utils/functions';
 
 const Boards = () => {
+    const participantsMenu = useRef();
     const [boardData, setBoardData] = useState([
         { title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
         { title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
@@ -26,13 +29,23 @@ const Boards = () => {
                     {boardData.length > 0 ? boardData.map((value, i) => <CardHolder key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                 </div>
                 <Modal heading="Assign/Dismiss Participants" buttonText={"Save changes"}>
-                    <div className='relative'>
-                        <MultipleSelectButton text="Select Participants" />
-                        
-                            <MultipleSelectMenu />
-                        
-
-
+                    <div className='relative w-1/2'>
+                        <MultipleSelectButton text="Select Participants" onClick={e => {
+                            rotateArrowOfButton(e);
+                            toggleDropdownMenu(participantsMenu.current);
+                        }} />
+                        <MultipleSelectMenu reference={participantsMenu}>
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                            <CheckBox text="Hamza Nawab" />
+                        </MultipleSelectMenu>
                     </div>
                 </Modal>
             </motion.div>
