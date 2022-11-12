@@ -1,4 +1,4 @@
-import { cardTagCSS } from './TagCSS'
+import { cardTagCSS } from './componentCSS'
 
 const CardTag = (props) => {
     return (

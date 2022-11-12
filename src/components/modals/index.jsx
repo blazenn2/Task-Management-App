@@ -36,18 +36,17 @@ const Modal = (props) => {
                     animate={{ y: 0 }}
                     exit={{ y: "100vh" }}
                     transition={{ duration: 0.5 }}
-                    className='absolute bg-white h-1/2 w-1/2 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between'>
-                    <div className="border-b border-slate-400 w-full p-4 flex items-center justify-between">
-                        <p className='text-xl font-semibold'>{props.heading}</p>
-                        <FiX className='scale-150 cursor-pointer' onClick={() => setModalIsOpen(false)} />
+                    className='absolute bg-white w-3/4 md:w-2/3 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between'>
+                    <div className="border-b border-slate-400 w-full sm:p-4 p-2 flex items-center justify-between">
+                        <p className='lg:text-xl text-base font-semibold'>{props.heading}</p>
+                        <FiX className='md:scale-150 cursor-pointer' onClick={() => setModalIsOpen(false)} />
                     </div>
                     {props.children}
-                    <div className="border-t border-slate-400 w-full p-4 flex items-center justify-center">
-                        <button className='bg-sl text-white p-3 rounded-xl hover:bg-s' onClick={() => setModalIsOpen(false)}>{props.buttonText}</button>
+                    <div className="border-t border-slate-400 w-full sm:p-4 p-2 flex items-center justify-center">
+                        <button className='bg-sl text-white sm:p-3 p-2 rounded-xl hover:bg-s text-sm md:text-base' onClick={() => setModalIsOpen(false)}>{props.buttonText}</button>
                     </div>
                 </motion.div>
             </motion.div> : null}
-
         </AnimatePresence>
     )
 }

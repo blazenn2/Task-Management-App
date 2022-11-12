@@ -1,11 +1,12 @@
 import React from 'react'
-import CardTag from './CardTag'
+import CardTag from '../tags/card-tag'
 import { FaPlus } from "react-icons/fa"
 import UserCircle from '../user-picture'
+import { cardCSS } from './componentCSS'
 
 const Card = (props) => {
     return (
-        <div id={`card-${props.index}`} className='bg-white md:h-32 h-36 w-11/12 rounded-md justify-self-center shadow-sm p-2 flex flex-col justify-between cursor-move transition-all duration-500' draggable={true} onDragStart={(e) => props.dragStart(props.index, e)} onDragEnter={(e) => props.dragEnter(props.index, e)} onDragLeave={(e) => props.dragLeave(e, props.index)} onDragEnd={(e) => props.dragEnd(e)} onDragOver={(e) => props.dragOver(e)} onDrop={(e) => props.drop(e, props.index)} >
+        <div id={`card-${props.index}`} className={cardCSS(props.className)} draggable={true} onDragStart={(e) => props.dragStart(props.index, e)} onDragEnter={(e) => props.dragEnter(props.index, e)} onDragLeave={(e) => props.dragLeave(e, props.index)} onDragEnd={(e) => props.dragEnd(e)} onDragOver={(e) => props.dragOver(e)} onDrop={(e) => props.drop(e, props.index)} >
             <CardTag piority={props.piority} />
             <div className="text-gray-500 lg:text-base md:text-sm text-xs">{props.text}</div>
             <div className="flex justify-end">
