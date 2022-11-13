@@ -10,6 +10,7 @@ import UserSmall from '../components/card/user-small';
 import UsernameTag from '../components/tags/username-tag';
 
 const Boards = () => {
+    const modalRef = useRef();
     const participantsMenu = useRef();
     const [boardData, setBoardData] = useState([
         { title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
@@ -23,14 +24,12 @@ const Boards = () => {
         setTimeout(() => { setBoardData(boardData.filter((_, i) => i !== index)) }, 200);
     };
 
+    const triggerModal = () => modalRef.current.triggerModal();
+
     return (
         <AnimatePresence>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
-                <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
-                <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-y-auto w-full px-3'>
-                    {boardData.length > 0 ? boardData.map((value, i) => <CardHolder key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
-                </div>
-                <Modal heading="Assign/Dismiss Participants" buttonText={"Save changes"}>
+                <Modal ref={modalRef} heading="Assign/Dismiss Participants" buttonText={"Save changes"}>
                     <div className='flex justify-between grow w-full p-3 space-x-4'>
                         <div className='relative w-1/2 space-y-2'>
                             <h2 className='lg:text-lg md:text-base text-sm font-semibold'>Add/Remove Participants</h2>
@@ -90,6 +89,12 @@ const Boards = () => {
                         </div>
                     </div>
                 </Modal>
+
+                <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
+                <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-y-auto w-full px-3'>
+                    {boardData.length > 0 ? boardData.map((value, i) => <CardHolder triggerModal={triggerModal} key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
+                </div>
+
             </motion.div>
         </AnimatePresence>
     )
