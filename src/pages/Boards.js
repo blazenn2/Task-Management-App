@@ -13,14 +13,15 @@ const Boards = () => {
     const modalRef = useRef();
     const participantsMenu = useRef();
     const [boardData, setBoardData] = useState([
-        { title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
-        { title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
-        { title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1 }, { text: "Social media posts.", piority: 2 }, { text: "Shopping cart and product catalog wireframes.", piority: 0 }, { text: "End user flow charts.", piority: 1 }] },
-        { title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0 }, { text: "Navigation designs.", piority: 1 }, { text: "User profile prototypes.", piority: 2 }, { text: "Create style guide based on previous feedback.", piority: 2 }] },
+        { id: "21jk3j21", title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
+        { id: "3h5lkhklk", title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
+        { id: "jkl12j4d2", title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1 }, { text: "Social media posts.", piority: 2 }, { text: "Shopping cart and product catalog wireframes.", piority: 0 }, { text: "End user flow charts.", piority: 1 }] },
+        { id: "h12uhuk12", title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0 }, { text: "Navigation designs.", piority: 1 }, { text: "User profile prototypes.", piority: 2 }, { text: "Create style guide based on previous feedback.", piority: 2 }] },
     ]);
 
     const removeBoardHandler = (index, e) => {
-        e.target.closest(`#board${index}`).style.opacity = 0;
+        setBoardData(boardData.filter((_, i) => i !== index));
+        // e.target.closest(`#board${index}`).style.opacity = 0;
         setTimeout(() => { setBoardData(boardData.filter((_, i) => i !== index)) }, 200);
     };
 
@@ -28,7 +29,7 @@ const Boards = () => {
 
     return (
         <AnimatePresence>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
                 <Modal ref={modalRef} heading="Assign/Dismiss Participants" buttonText={"Save changes"}>
                     <div className='flex justify-between grow w-full p-3 space-x-4'>
                         <div className='relative w-1/2 space-y-2'>
@@ -89,10 +90,11 @@ const Boards = () => {
                         </div>
                     </div>
                 </Modal>
-
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-y-auto w-full px-3'>
-                    {boardData.length > 0 ? boardData.map((value, i) => <CardHolder triggerModal={triggerModal} key={i} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
+                    <AnimatePresence>
+                        {boardData.length > 0 ? boardData.map((value, i) => <CardHolder triggerModal={triggerModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
+                    </AnimatePresence>
                 </div>
 
             </motion.div>

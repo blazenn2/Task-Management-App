@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from '../card'
 import { FiX } from "react-icons/fi";
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
 
 const CardHolder = (props) => {
@@ -12,11 +12,13 @@ const CardHolder = (props) => {
     const dragOverItem = useRef();
 
     const onDragStart = (position, e, boardIndex) => {
+        console.log(boardIndex);
         dragItem.current = { cardIndex: position, boardIndex: boardIndex };
         e.target.classList.add("opacity-50");
     };
 
     const onDragEnter = (position, e, boardIndex) => {
+        console.log(boardIndex);
         dragOverItem.current = { cardIndex: position, boardIndex: boardIndex };
         if (boardIndex === dragItem.current?.boardIndex) {
             if (e.target.id) e.target.classList.add("animate-pulse");
@@ -44,7 +46,7 @@ const CardHolder = (props) => {
 
     const onDragEnd = (e) => {
         if ([...e.target.classList].includes("opacity-50")) e.target.classList.remove("opacity-50");
-        if (dragItem.current.boardIndex === dragOverItem.current.boardIndex) {
+        if (dragItem.current?.boardIndex === dragOverItem.current?.boardIndex) {
             const tempData = [...props.data[props.index].cards];
             const dragContent = tempData[dragItem.current.cardIndex];
             tempData.splice(dragItem.current.cardIndex, 1);
@@ -68,8 +70,7 @@ const CardHolder = (props) => {
     const btnClickHandler = () => props.triggerModal();
 
     return (
-        <AnimatePresence>
-            <motion.div key={props.index} initial={{ y: 200, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 200, opacity: 0 }} transition={{ duration: 0.5 }} id={`board${props.index}`} className='border md:w-[17rem] min-w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all'>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: 400 }} transition={{ duration: 1 }} id={`board${props.index}`} className='border md:w-[17rem] min-w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all'>
                 <div className={`w-full h-1 rounded-t bg-gradient-to-r ${headingGradient[randomIndex]} `}></div>
                 <div className="w-11/12 justify-self-center flex items-center justify-between">
                     <h1 className="text-lg text-gray-500">{props.title}</h1>
@@ -81,7 +82,6 @@ const CardHolder = (props) => {
                     {props.card?.map((value, i) => <Card key={i} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
                 </div>
             </motion.div>
-        </AnimatePresence>
     )
 }
 
