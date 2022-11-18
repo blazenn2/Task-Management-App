@@ -5,7 +5,7 @@ import Modal from '../components/modals';
 import MultipleSelectButton from '../components/dropdowns/multiple-select-button';
 import MultipleSelectMenu from '../components/dropdowns/multiple-select-menu';
 import CheckBox from '../components/inputs/checkbox';
-import { rotateArrowOfButton, toggleDropdownMenu } from '../utils/functions';
+import { rotateArrowOfButton, toggleDropdownMenu, clickSelectHandler } from '../utils/functions';
 import UserSmall from '../components/card/user-small';
 import UsernameTag from '../components/tags/username-tag';
 import SelectMenu from '../components/dropdowns/select-menu';
@@ -17,6 +17,7 @@ const Boards = () => {
     const participantsMenu = useRef();
     const addCardModal = useRef();
     const addCardMenu = useRef();
+    const addCardBtn = useRef();
     const [boardData, setBoardData] = useState([
         { id: "21jk3j21", title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
         { id: "3h5lkhklk", title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
@@ -94,15 +95,15 @@ const Boards = () => {
                     </div>
                 </Modal>
                 <Modal ref={addCardModal} heading="Add a new Task" buttonText="Save Changes">
-                    <div className='relative'>
-                        <SelectButton text="Select Piority" onClick={e => {
+                    <div className='relative w-40'>
+                        <SelectButton text="Select Piority" reference={addCardBtn} onClick={e => {
                             rotateArrowOfButton(e);
                             toggleDropdownMenu(addCardMenu.current);
                         }} />
                         <SelectMenu reference={addCardMenu}>
-                            <SelectOption text="Low Piortiy" />
-                            <SelectOption text="Medium Piortiy" />
-                            <SelectOption text="High Piortiy" />
+                            <SelectOption text="Low Piortiy" onClick={e => clickSelectHandler(e.target, addCardBtn.current)} />
+                            <SelectOption text="Medium Piortiy" onClick={e => clickSelectHandler(e.target, addCardBtn.current)} />
+                            <SelectOption text="High Piortiy" onClick={e => clickSelectHandler(e.target, addCardBtn.current)} />
                         </SelectMenu>
                     </div>
                 </Modal>

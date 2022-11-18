@@ -17,3 +17,8 @@ export const toggleDropdownMenu = (dropDownElement) => {
         dropDownElement.classList.add("max-h-0");
     }
 };
+
+export const clickSelectHandler = (optionElement, btnElement) => {
+    btnElement.textContent = optionElement.textContent;
+    btnElement.parentElement.value = optionElement.textContent;
+};
