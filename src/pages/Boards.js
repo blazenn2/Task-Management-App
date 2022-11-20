@@ -2,22 +2,15 @@ import React, { useRef, useState } from 'react'
 import CardHolder from '../components/card-holder'
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from '../components/modals';
-import MultipleSelectButton from '../components/dropdowns/multiple-select-button';
-import MultipleSelectMenu from '../components/dropdowns/multiple-select-menu';
-import CheckBox from '../components/inputs/checkbox';
-import { rotateArrowOfButton, toggleDropdownMenu, clickSelectHandler } from '../utils/functions';
 import UserSmall from '../components/card/user-small';
 import UsernameTag from '../components/tags/username-tag';
-import SelectMenu from '../components/dropdowns/select-menu';
-import SelectButton from '../components/dropdowns/select-button';
-import SelectOption from '../components/dropdowns/select-option';
+import Input from '../components/inputs';
+import DropDown from '../components/dropdowns/dropdown';
+import MultiSelectDropdown from '../components/dropdowns/multi-select-dropdown';
 
 const Boards = () => {
     const participantsModal = useRef();
-    const participantsMenu = useRef();
     const addCardModal = useRef();
-    const addCardMenu = useRef();
-    const addCardBtn = useRef();
     const [boardData, setBoardData] = useState([
         { id: "21jk3j21", title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
         { id: "3h5lkhklk", title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
@@ -38,22 +31,7 @@ const Boards = () => {
                     <div className='flex justify-between grow w-full p-3 space-x-4'>
                         <div className='relative w-1/2 space-y-2'>
                             <h2 className='lg:text-lg md:text-base text-sm font-semibold'>Add/Remove Participants</h2>
-                            <MultipleSelectButton text="Select Participants" onClick={e => {
-                                rotateArrowOfButton(e);
-                                toggleDropdownMenu(participantsMenu.current);
-                            }} />
-                            <MultipleSelectMenu reference={participantsMenu}>
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                                <CheckBox text="Hamza Nawab" />
-                            </MultipleSelectMenu>
+                            <MultiSelectDropdown buttonText="Select Participants" options={["Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab", "Hamza Nawab"]} />
                             <div className='flex flex-wrap grow max-h-32 overflow-auto'>
                                 <UsernameTag name="Hamza Nawab" />
                                 <UsernameTag name="Hamza Nawab" />
@@ -95,16 +73,15 @@ const Boards = () => {
                     </div>
                 </Modal>
                 <Modal ref={addCardModal} heading="Add a new Task" buttonText="Save Changes">
-                    <div className='relative w-40'>
-                        <SelectButton text="Select Piority" reference={addCardBtn} onClick={e => {
-                            rotateArrowOfButton(e);
-                            toggleDropdownMenu(addCardMenu.current);
-                        }} />
-                        <SelectMenu reference={addCardMenu}>
-                            <SelectOption text="Low Piortiy" onClick={e => clickSelectHandler(e.target, addCardBtn.current)} />
-                            <SelectOption text="Medium Piortiy" onClick={e => clickSelectHandler(e.target, addCardBtn.current)} />
-                            <SelectOption text="High Piortiy" onClick={e => clickSelectHandler(e.target, addCardBtn.current)} />
-                        </SelectMenu>
+                    <div className='flex justify-between grow p-3 w-full space-x-4'>
+                        <div className='flex w-1/2 justify-between flex-col space-y-4 py-4'>
+                            <Input text="Name" />
+                            <div className='w-full flex items-center pl-2 space-x-4 relative'>
+                                <span>Piority</span>
+                                <DropDown options={["Low Piority", "Medium Piority", "High Piority"]} buttonText="Select Piority" btnCSS="w-40" />
+                            </div>
+                        </div>
+
                     </div>
                 </Modal>
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>

@@ -1,7 +1,7 @@
 export const rotateArrowOfButton = (e) => {
     let svgElement;
-    if (e.target.tagName.toLowerCase() === "button") svgElement = [...e.target.childNodes].filter(value => value.tagName.toLowerCase() === "svg")[0];
-    else svgElement = [...e.target.closest("button").childNodes].filter(value => value.tagName.toLowerCase() === "svg")[0];
+    if (e.tagName.toLowerCase() === "button") svgElement = [...e.childNodes].filter(value => value.tagName.toLowerCase() === "svg")[0];
+    else svgElement = [...e.closest("button").childNodes].filter(value => value.tagName.toLowerCase() === "svg")[0];
     if ([...svgElement.classList].includes("rotate-180")) svgElement.classList.remove("rotate-180");
     else svgElement.classList.add("rotate-180");
 };
