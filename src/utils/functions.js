@@ -22,3 +22,7 @@ export const clickSelectHandler = (optionElement, btnElement) => {
     btnElement.textContent = optionElement.textContent;
     btnElement.parentElement.value = optionElement.textContent;
 };
+
+export const addRemoveParticipants = (checked, value, state, setState) => checked ? setState([...state, value]) : setState(state.filter(val => val !== value));
+
+export const removeTag = (state, setState, value) => setState(state.filter(val => val !== value));
