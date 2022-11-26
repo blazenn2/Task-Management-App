@@ -18,8 +18,8 @@ const Boards = () => {
         { id: "jkl12j4d2", title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1 }, { text: "Social media posts.", piority: 2 }, { text: "Shopping cart and product catalog wireframes.", piority: 0 }, { text: "End user flow charts.", piority: 1 }] },
         { id: "h12uhuk12", title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0 }, { text: "Navigation designs.", piority: 1 }, { text: "User profile prototypes.", piority: 2 }, { text: "Create style guide based on previous feedback.", piority: 2 }] },
     ]);
-    const [newTaskParticipants, setNewTaskParticipants] = useState([]);
-    const [addRemoveParticipants, setAddRemoveParticipants] = useState([]);
+    const [newTaskParticipants, setNewTaskParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
+    const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: true }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
 
     const removeBoardHandler = (index, e) => setBoardData(boardData.filter((_, i) => i !== index));
 
@@ -34,9 +34,9 @@ const Boards = () => {
                     <div className='flex justify-between grow w-full p-3 space-x-4'>
                         <div className='relative w-1/2 space-y-2'>
                             <h2 className='lg:text-lg md:text-base text-sm font-semibold'>Add/Remove Participants</h2>
-                            <MultiSelectDropdown buttonText="Select Participants" state={addRemoveParticipants} setState={setAddRemoveParticipants} options={["Bruce Wayne", "Alfred Penny", "Draco Malfoy", "Berney", "Clark Kent"]} />
+                            <MultiSelectDropdown buttonText="Select Participants" state={addRemoveParticipants} setState={setAddRemoveParticipants} />
                             <div className='flex flex-wrap grow max-h-32 overflow-auto'>
-                                {addRemoveParticipants.map((value, i) => <UsernameTag state={addRemoveParticipants} setState={setAddRemoveParticipants} key={i} name={value} />)}
+                                {addRemoveParticipants.map((value, i) => value.checked && <UsernameTag state={addRemoveParticipants} setState={setAddRemoveParticipants} key={i} name={value.name} />)}
                             </div>
                         </div>
                         <div className='w-px my-2 bg-slate-400'></div>
@@ -71,11 +71,11 @@ const Boards = () => {
                             <div className='flex items-center space-x-4 w-full'>
                                 <span className='lg:text-base md:text-sm text-xs'>Add Participants</span>
                                 <div className='w-2/3'>
-                                    <MultiSelectDropdown buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants} options={["Hamza Nawab", "Rahim Nawab", "Khuzaima Nawab", "Tony Stark", "Bruce Wayne"]} />
+                                    <MultiSelectDropdown buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants}  />
                                 </div>
                             </div>
                             <div className='flex flex-wrap max-h-20 overflow-auto'>
-                                {newTaskParticipants.map((value, i) => <UsernameTag state={newTaskParticipants} setState={setNewTaskParticipants} key={i} name={value} />)}
+                                {newTaskParticipants.map((value, i) => value.checked && <UsernameTag state={newTaskParticipants} setState={setNewTaskParticipants} key={i} name={value.name} />)}
                             </div>
                         </div>
                     </div>

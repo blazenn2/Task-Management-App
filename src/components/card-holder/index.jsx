@@ -4,10 +4,11 @@ import { FiX } from "react-icons/fi";
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { useMemo } from 'react';
 
 const CardHolder = (props) => {
     const headingGradient = ["from-fuchsia-400 to-pink-600", "from-blue-300 to-indigo-500", "from-green-300 to-blue-300", "from-red-400 to-amber-400", "from-pink-400 to-blue-400", "from-orange-300 to-amber-600"];
-    const randomIndex = Math.floor(Math.random() * headingGradient.length);
+    const randomIndex = useMemo(() => Math.floor(Math.random() * headingGradient.length), [headingGradient.length]);
 
     const dragItem = useRef();
     const dragOverItem = useRef();

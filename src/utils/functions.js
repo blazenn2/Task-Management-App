@@ -23,6 +23,6 @@ export const clickSelectHandler = (optionElement, btnElement) => {
     btnElement.parentElement.value = optionElement.textContent;
 };
 
-export const addRemoveParticipants = (checked, value, state, setState) => checked ? setState([...state, value]) : setState(state.filter(val => val !== value));
+export const addRemoveParticipants = (checked, value, state, setState) => checked ? setState(state.map(val => val.name === value ? { ...val, checked: true } : val)) : setState(state.map(val => val.name === value ? { ...val, checked: false } : val));
 
-export const removeTag = (state, setState, value) => setState(state.filter(val => val !== value));
+export const removeTag = (state, setState, value) => setState(state.map(val => val.name !== value ? { ...val } : { ...val, checked: false }));
