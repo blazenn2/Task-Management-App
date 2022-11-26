@@ -69,10 +69,10 @@ const CardHolder = (props) => {
         }
     };
 
-    const btnClickHandler = () => props.triggerModal();
+    const btnClickHandler = (e) => props.triggerModal(e);
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: 400 }} transition={{ duration: 1 }} id={`board${props.index}`} className='border md:w-[17rem] min-w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all relative'>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: 400 }} transition={{ duration: 1 }} id={`board-${props.index}`} className='board border md:w-[17rem] min-w-[12rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all relative'>
             <div className={`w-full h-1 rounded-t bg-gradient-to-r ${headingGradient[randomIndex]} `}></div>
             <div className="w-11/12 justify-self-center flex items-center justify-between">
                 <h1 className="text-lg text-gray-500">{props.title}</h1>

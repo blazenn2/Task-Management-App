@@ -13,17 +13,25 @@ const Boards = () => {
     const participantsModal = useRef();
     const addCardModal = useRef();
     const [boardData, setBoardData] = useState([
-        { id: "21jk3j21", title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0 }, { text: "Mobile app login process prototype.", piority: 1 }, { text: "Onboarding designs.", piority: 2 }] },
-        { id: "3h5lkhklk", title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2 }, { text: "Account profile flow diagrams.", piority: 1 }, { text: "Slide templates for client pitch project.", piority: 0 }, { text: "Review administrator console designs.", piority: 0 }] },
-        { id: "jkl12j4d2", title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1 }, { text: "Social media posts.", piority: 2 }, { text: "Shopping cart and product catalog wireframes.", piority: 0 }, { text: "End user flow charts.", piority: 1 }] },
-        { id: "h12uhuk12", title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0 }, { text: "Navigation designs.", piority: 1 }, { text: "User profile prototypes.", piority: 2 }, { text: "Create style guide based on previous feedback.", piority: 2 }] },
+        { id: "21jk3j21", title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0, participants: ["Hamza Nawab", "Rahim Nawab"] }, { text: "Mobile app login process prototype.", piority: 1, participants: ["Bruce Wayne"] }, { text: "Onboarding designs.", piority: 2, participants: "Tony Stark" }] },
+        { id: "3h5lkhklk", title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2, participants: ["Tony Stark"] }, { text: "Account profile flow diagrams.", piority: 1, participants: ["Bruce Wayne", "Tony Stark", "Hamza Nawab"] }, { text: "Slide templates for client pitch project.", piority: 0, participants: ["Hamza Nawab", "Tony Stark"] }, { text: "Review administrator console designs.", piority: 0, participants: "Bruce Wayne" }] },
+        { id: "jkl12j4d2", title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1, participants: ["Rahim Nawab", "Khuzaima Nawab"] }, { text: "Social media posts.", piority: 2, participants: ["Rahim Nawab", "Hamza Nawab", "Khuzaima Nawab", "Bruce Wayne", "Tony Stark"] }, { text: "Shopping cart and product catalog wireframes.", piority: 0, participants: ["Khuzaima Nawab"] }, { text: "End user flow charts.", piority: 1, participants: ["Bruce Wayne", "Rahim Nawab"] }] },
+        { id: "h12uhuk12", title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0, participants: ["Hamza Nawab", "Tony Stark"] }, { text: "Navigation designs.", piority: 1, participants: ["Hamza Nawab"] }, { text: "User profile prototypes.", piority: 2, participants: [] }, { text: "Create style guide based on previous feedback.", piority: 2, participants: ["Rahim Nawab", "Hamza Nawab"] }] },
     ]);
     const [newTaskParticipants, setNewTaskParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
-    const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: true }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
+    const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
+    const [participantsList, setParticipantsList] = useState([]);
 
     const removeBoardHandler = (index, e) => setBoardData(boardData.filter((_, i) => i !== index));
 
-    const triggerParticipantsModal = () => participantsModal.current.triggerModal();
+    const triggerParticipantsModal = (e) => {
+        participantsModal.current.triggerModal();
+        const cardNumber = e.target.closest(".card").id.split("-")[1];
+        const boardNumber = e.target.closest(".board").id.split("-")[1];
+        const participants = boardData[boardNumber].cards[cardNumber].participants;
+        setParticipantsList(participants);
+        setAddRemoveParticipants(addRemoveParticipants.map(value => participants.includes(value.name) ? { ...value, checked: true } : { ...value, checked: false }));
+    };
 
     const triggerAddCardModal = () => addCardModal.current.triggerModal();
 
@@ -43,16 +51,7 @@ const Boards = () => {
                         <div className='w-2/4 flex flex-col space-y-2'>
                             <h3 className='lg:text-lg md:text-base text-sm font-semibold'>Participants List</h3>
                             <div className='border border-slate-500 rounded-md flex flex-col items-center justify-start grow max-h-44 w-full overflow-y-auto'>
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
-                                <UserSmall name="James Malfoy" />
+                                {participantsList.map((value, i) => <UserSmall key={i} name={value} />)}
                             </div>
                         </div>
                     </div>
@@ -71,7 +70,7 @@ const Boards = () => {
                             <div className='flex items-center space-x-4 w-full'>
                                 <span className='lg:text-base md:text-sm text-xs'>Add Participants</span>
                                 <div className='w-2/3'>
-                                    <MultiSelectDropdown buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants}  />
+                                    <MultiSelectDropdown buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants} />
                                 </div>
                             </div>
                             <div className='flex flex-wrap max-h-20 overflow-auto'>

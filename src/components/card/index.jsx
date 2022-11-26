@@ -10,7 +10,7 @@ const Card = (props) => {
             <CardTag piority={props.piority} />
             <div className="text-gray-500 lg:text-base md:text-sm text-xs">{props.text}</div>
             <div className="flex justify-end">
-                <button onClick={props.onBtnClick} className="md:p-2 p-1 m-1 border border-dashed border-gray-400 rounded-full hover:bg-gray-100"><FaPlus className='text-gray-400 p-1 md:p-0' /></button>
+                <button onClick={e => props.onBtnClick(e)} className="md:p-2 p-1 m-1 border border-dashed border-gray-400 rounded-full hover:bg-gray-100"><FaPlus className='text-gray-400 p-1 md:p-0' /></button>
                 <UserCircle />
             </div>
         </div>

@@ -16,7 +16,7 @@ const MultiSelectDropdown = (props) => {
                 toggleDropdownMenu(selectMenu.current);
             }} />
             <MultipleSelectMenu reference={selectMenu}>
-                {props.state.map((option, i) => <CheckBox checked={option.checked ? true : false} key={i} onClick={e => addRemoveParticipants(e.target.checked, e.target.value, props.state, props.setState)} value={option.name} text={option.name} />)}
+                {props.state.map((option, i) => <CheckBox checked={option.checked ? true : false} onChange={e => e.target.checked = !e.target.checked} key={i} onClick={e => addRemoveParticipants(e.target.checked, e.target.value, props.state, props.setState)} value={option.name} text={option.name} />)}
             </MultipleSelectMenu>
         </div>
     )
