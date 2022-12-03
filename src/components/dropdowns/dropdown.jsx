@@ -19,6 +19,7 @@ const DropDown = (props) => {
                     clickSelectHandler(e.target, addCardBtn.current);
                     toggleDropdownMenu(addCardMenu.current);
                     rotateArrowOfButton(addCardBtn.current);
+                    props.choosePiority.current = e.target.textContent;
                 }} />)}
             </SelectMenu>
         </div>

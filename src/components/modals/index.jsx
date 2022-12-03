@@ -52,7 +52,7 @@ const Modal = forwardRef((props, ref) => {
                     </div>
                     {props.children}
                     <div className="border-t border-slate-400 w-full sm:p-4 p-2 flex items-center justify-center">
-                        <button className='bg-sl text-white sm:p-3 p-2 rounded-xl hover:bg-s text-sm md:text-base' onClick={() => setModalIsOpen(false)}>{props.buttonText}</button>
+                        <button className='bg-sl text-white sm:p-3 p-2 rounded-xl hover:bg-s text-sm md:text-base' onClick={props.onSave}>{props.buttonText}</button>
                     </div>
                 </motion.div>
             </motion.div> : null}

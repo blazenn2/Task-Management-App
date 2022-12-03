@@ -1,6 +1,7 @@
 # Pages Documentation
 
-## State Management
+## Board page
+### State Management
 
 The Board page contains 4 different states and each of them are used for re-rendering purpose. To make changes to components, such as animations, addition/deletion are done using useRef hook.
 
