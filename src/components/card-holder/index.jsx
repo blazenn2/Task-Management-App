@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from '../card'
 import { FiX } from "react-icons/fi";
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRef } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useMemo } from 'react';
@@ -14,13 +14,11 @@ const CardHolder = (props) => {
     const dragOverItem = useRef();
 
     const onDragStart = (position, e, boardIndex) => {
-        console.log(boardIndex);
         dragItem.current = { cardIndex: position, boardIndex: boardIndex };
         e.target.classList.add("opacity-50");
     };
 
     const onDragEnter = (position, e, boardIndex) => {
-        console.log(boardIndex);
         dragOverItem.current = { cardIndex: position, boardIndex: boardIndex };
         if (boardIndex === dragItem.current?.boardIndex) {
             if (e.target.id) e.target.classList.add("animate-pulse");
@@ -81,7 +79,9 @@ const CardHolder = (props) => {
                 </button>
             </div>
             <div className="space-y-3 w-full h-[80%] flex flex-col items-center overflow-y-scroll">
-                {props.card?.map((value, i) => <Card key={i} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
+                <AnimatePresence>
+                    {props.card?.map((value, i) => <Card key={i} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
+                </AnimatePresence>
             </div>
             <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100">
                 <button className="p-3 flex items-center text-gray-400 hover:text-gray-500 justify-between space-x-2" onClick={props.addTaskHandler}><span>Add Task</span> <AiOutlinePlusCircle className='scale-125' /></button>

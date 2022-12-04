@@ -11,7 +11,10 @@ import { FaPlus } from 'react-icons/fa';
 
 
 const Boards = () => {
+    // Refs for participants
     const participantsModal = useRef();
+    const boardNumber = useRef();
+    const cardNumber = useRef();
 
     // Refs for adding board
     const addBoardModal = useRef();
@@ -38,9 +41,9 @@ const Boards = () => {
     // <========= Functions to trigger modals ==========> //
     const triggerParticipantsModal = (e) => {
         participantsModal.current.triggerModal();
-        const cardNumber = e.target.closest(".card").id.split("-")[1];
-        const boardNumber = e.target.closest(".board").id.split("-")[1];
-        const participants = boardData[boardNumber].cards[cardNumber].participants;
+        cardNumber.current = e.target.closest(".card").id.split("-")[1];
+        boardNumber.current = e.target.closest(".board").id.split("-")[1];
+        const participants = boardData[boardNumber.current].cards[cardNumber.current].participants;
         setParticipantsList(participants);
         setAddRemoveParticipants(addRemoveParticipants.map(value => participants.includes(value.name) ? { ...value, checked: true } : { ...value, checked: false }));
     };
@@ -79,15 +82,23 @@ const Boards = () => {
         addCardModal.current.triggerModal();
     };
 
+    // <========= For adding/removing participants from a task =========> //
     const manuplateParticipants = () => {
-        
+        participantsModal.current.triggerModal();
+        const participants = addRemoveParticipants.filter(value => value.checked).map(value => value.name);
+        setBoardData(boardData.map((value, i) => {
+            if (i === Number(boardNumber.current)) {
+                value.cards[cardNumber.current].participants = participants;
+            }
+            return value;
+        }));
     };
 
     return (
         <AnimatePresence>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
                 {/* Modal of adding/remove participant for specific cards button */}
-                <Modal ref={participantsModal} heading="Assign/Dismiss Participants" buttonText="Save changes">
+                <Modal ref={participantsModal} heading="Assign/Dismiss Participants" buttonText="Save changes" onSave={manuplateParticipants}>
                     <div className='flex justify-between grow w-full p-3 space-x-4'>
                         <div className='relative w-1/2 space-y-2'>
                             <h2 className='lg:text-lg md:text-base text-sm font-semibold'>Add/Remove Participants</h2>
@@ -145,7 +156,7 @@ const Boards = () => {
                         {boardData.length > 0 ? boardData.map((value, i) => <CardHolder addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                     </AnimatePresence>
                 </div>
-                <div className='absolute bottom-5 right-5 bg-gradient-to-br from-blue-400 to-indigo-300 w-14 h-14 rounded-full flex items-center justify-center hover:brightness-110 active:brightness-90' onClick={e => triggerAddBoardModal()}><FaPlus className='text-white scale-150 p-1 md:p-0' /></div>
+                <div className='fixed bottom-5 right-5 bg-gradient-to-br from-blue-400 to-indigo-300 w-14 h-14 rounded-full flex items-center justify-center hover:brightness-110 active:brightness-90' onClick={e => triggerAddBoardModal()}><FaPlus className='text-white scale-150 p-1 md:p-0' /></div>
             </motion.div>
         </AnimatePresence>
     )
