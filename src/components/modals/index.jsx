@@ -44,7 +44,10 @@ const Modal = forwardRef((props, ref) => {
                     animate={{ y: 0 }}
                     exit={{ y: "100vh" }}
                     transition={{ duration: 0.5 }}
-                    onClick={e => e.stopPropagation()}
+                    onClick={e => {
+                        e.stopPropagation();
+                        
+                    }}
                     className='absolute bg-white w-3/4 md:w-2/3 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between'>
                     <div className="border-b border-slate-400 w-full sm:p-4 p-2 flex items-center justify-between">
                         <p className='lg:text-xl text-base font-semibold'>{props.heading}</p>
