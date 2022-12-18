@@ -120,20 +120,20 @@ const Boards = () => {
                 </Modal>
                 {/* Modal of adding a new task to the board */}
                 <Modal ref={addCardModal} heading="Add a new Task" buttonText="Save Changes" onSave={createNewTask}>
-                    <div className='flex justify-between grow p-3 w-full space-x-4'>
-                        <div className='flex w-1/2 flex-col space-y-4'>
-                            <Input text="Name" reference={taskName} />
-                            <div className='w-full flex items-center pl-2 space-x-4 relative'>
+                    <div className='flex md:flex-row flex-col justify-between grow p-3 w-full md:space-x-4'>
+                        <div className='flex md:w-1/2 w-full flex-col space-y-4'>
+                            <Input labelClassName="p-0 md:p-1" text="Name" reference={taskName} />
+                            <div className='w-full flex items-center md:pl-1 space-x-4 relative'>
                                 <span>Piority</span>
                                 <DropDown options={["Low Piority", "Medium Piority", "High Piority"]} buttonText="Select Piority" btnCSS="w-40" choosePiority={piority} />
                             </div>
                         </div>
-                        <div className='w-px my-2 bg-slate-400'></div>
-                        <div className='relative w-1/2 space-y-2 flex flex-col'>
+                        <div className='w-px my-2 bg-slate-400 '></div>
+                        <div className='relative md:w-1/2 space-y-2 flex flex-col'>
                             <div className='flex items-center space-x-4 w-full'>
-                                <span className='lg:text-base md:text-sm text-xs'>Add Participants</span>
+                                <span className=''>Add Participants</span>
                                 <div className='w-2/3'>
-                                    <MultiSelectDropdown buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants} />
+                                    <MultiSelectDropdown btnCSS="sm:w-3/4 md:w-full" buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants} />
                                 </div>
                             </div>
                             <div className='flex flex-wrap max-h-20 overflow-auto'>
@@ -146,7 +146,7 @@ const Boards = () => {
                 </Modal>
                 {/* Modal for adding a new board */}
                 <Modal ref={addBoardModal} heading="Add a new Board" buttonText="Save Changes" onSave={createNewBoard}>
-                    <div className='flex justify-start items-center w-full grow'>
+                    <div className='flex justify-start items-center w-full grow px-4'>
                         <Input text="Board Name" className="w-[85%]" reference={boardInput} />
                     </div>
                 </Modal>

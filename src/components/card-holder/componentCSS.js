@@ -1,0 +1,1 @@
+export const cardHolderCSS = (css="") => `${css} board border md:w-[17rem] md:min-w-[17rem] min-w-[12rem] lg:min-w-[17rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all relative`;

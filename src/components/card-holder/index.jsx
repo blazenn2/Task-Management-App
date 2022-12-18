@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRef } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useMemo } from 'react';
+import { cardHolderCSS } from './componentCSS';
 
 const CardHolder = (props) => {
     const headingGradient = ["from-fuchsia-400 to-pink-600", "from-blue-300 to-indigo-500", "from-green-300 to-blue-300", "from-red-400 to-amber-400", "from-pink-400 to-blue-400", "from-orange-300 to-amber-600"];
@@ -70,7 +71,7 @@ const CardHolder = (props) => {
     const btnClickHandler = (e) => props.triggerModal(e);
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: 400 }} transition={{ duration: 1 }} id={`board-${props.index}`} className='board border md:w-[17rem] min-w-[12rem] lg:min-w-[17rem] flex flex-col justify-start items-center space-y-3 shadow-md pb-2 rounded-md h-[95%] transition-all relative'>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: 400 }} transition={{ duration: 1 }} id={`board-${props.index}`} className={cardHolderCSS()}>
             <div className={`w-full h-1 rounded-t bg-gradient-to-r ${headingGradient[randomIndex]} `}></div>
             <div className="w-11/12 justify-self-center flex items-center justify-between">
                 <h1 className="text-lg text-gray-500">{props.title}</h1>
@@ -83,7 +84,7 @@ const CardHolder = (props) => {
                     {props.card?.map((value, i) => <Card key={i} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
                 </AnimatePresence>
             </div>
-            <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100">
+            <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100 z-40">
                 <button className="p-3 flex items-center text-gray-400 hover:text-gray-500 justify-between space-x-2" onClick={props.addTaskHandler}><span>Add Task</span> <AiOutlinePlusCircle className='scale-125' /></button>
             </div>
         </motion.div>

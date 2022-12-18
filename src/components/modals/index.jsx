@@ -38,7 +38,7 @@ const Modal = forwardRef((props, ref) => {
                 exit="hidden"
                 variants={overlayVariants}
                 onClick={() => setModalIsOpen(false)}
-                className='fixed left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-[#00000050] w-screen h-screen z-40'>
+                className='fixed left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-[#00000050] w-screen h-screen z-[9999999]'>
                 <motion.div
                     initial={{ y: "100vh" }}
                     animate={{ y: 0 }}
@@ -48,7 +48,7 @@ const Modal = forwardRef((props, ref) => {
                         e.stopPropagation();
                         
                     }}
-                    className='absolute bg-white w-3/4 md:w-2/3 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between'>
+                    className='absolute bg-white w-11/12 md:w-2/3 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between'>
                     <div className="border-b border-slate-400 w-full sm:p-4 p-2 flex items-center justify-between">
                         <p className='lg:text-xl text-base font-semibold'>{props.heading}</p>
                         <FiX className='md:scale-150 cursor-pointer' onClick={() => setModalIsOpen(false)} />
