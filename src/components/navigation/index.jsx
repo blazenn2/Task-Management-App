@@ -5,7 +5,7 @@ import UserCircle from '../user-picture';
 
 const Navigation = () => {
     return (
-        <div className='w-full md:min-h-[4rem] min-h-[2.75rem] bg-gradient-to-r from-blue-400 to-indigo-300 flex justify-between z-30'>
+        <div className='w-full md:min-h-[4rem] min-h-[2.75rem] bg-gradient-to-r from-blue-400 to-indigo-300 flex justify-between z-40'>
             <div className="md:w-1/3 md:pl-0 w-1/2 pl-5 h-full flex items-center">
                 <div className="w-1/3 h-full flex items-center justify-center">
                     {/* <img src="./logo-light.svg" alt="" className='h-5 w-25' /> */}

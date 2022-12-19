@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from '../card'
-import { FiX } from "react-icons/fi";
+import { FiCornerRightDown, FiX } from "react-icons/fi";
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRef } from 'react';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
@@ -11,10 +11,13 @@ const CardHolder = (props) => {
     const headingGradient = ["from-fuchsia-400 to-pink-600", "from-blue-300 to-indigo-500", "from-green-300 to-blue-300", "from-red-400 to-amber-400", "from-pink-400 to-blue-400", "from-orange-300 to-amber-600"];
     const randomIndex = useMemo(() => Math.floor(Math.random() * headingGradient.length), [headingGradient.length]);
 
+    const boardDrag = useRef();
     const dragItem = useRef();
     const dragOverItem = useRef();
 
     const onDragStart = (position, e, boardIndex) => {
+        boardDrag.current.classList.add("opacity-100", "h-10", "flex");
+        boardDrag.current.classList.remove("opacity-0", "h-0", "hidden");
         dragItem.current = { cardIndex: position, boardIndex: boardIndex };
         e.target.classList.add("opacity-50");
     };
@@ -46,6 +49,8 @@ const CardHolder = (props) => {
     };
 
     const onDragEnd = (e) => {
+        boardDrag.current.classList.remove("opacity-100", "h-10", "flex");
+        boardDrag.current.classList.add("opacity-0", "h-0", "hidden");
         if ([...e.target.classList].includes("opacity-50")) e.target.classList.remove("opacity-50");
         if (dragItem.current?.boardIndex === dragOverItem.current?.boardIndex) {
             const tempData = [...props.data[props.index].cards];
@@ -79,12 +84,16 @@ const CardHolder = (props) => {
                     <FiX className='text-gray-500' onClick={(e) => props.removeBoard(props.index, e)} />
                 </button>
             </div>
+            <div ref={boardDrag} className="flex items-center px-3 py-2 justify-around w-4/5 animate-bounce border border-gray-500 rounded-md shadow-md transition-all delay-500">
+                <p className='text-gray-700'>Place Your Card Here</p>
+                <FiCornerRightDown className='text-gray-700 scale-110' />
+            </div>
             <div className="space-y-3 w-full h-[80%] flex flex-col items-center overflow-y-scroll">
                 <AnimatePresence>
                     {props.card?.map((value, i) => <Card key={i} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
                 </AnimatePresence>
             </div>
-            <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100 z-40">
+            <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100 z-30">
                 <button className="p-3 flex items-center text-gray-400 hover:text-gray-500 justify-between space-x-2" onClick={props.addTaskHandler}><span>Add Task</span> <AiOutlinePlusCircle className='scale-125' /></button>
             </div>
         </motion.div>

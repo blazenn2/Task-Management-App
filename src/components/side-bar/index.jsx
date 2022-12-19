@@ -11,7 +11,7 @@ const SideBar = () => {
     if (location.pathname.split("/")[1] && location.pathname.split("/")[1] !== "") IconsData.forEach((value, i) => value.title.toLowerCase() === location.pathname.split("/")[1] && (activeLocation = i))
     const [isActive, setIsActive] = useState(activeLocation);
     return (
-        <div className='md:w-[10%] w-2/12 bg-white h-screen md:-translate-y-16 -translate-y-11 z-40 flex flex-col'>
+        <div className='md:w-[10%] w-2/12 bg-white h-screen md:-translate-y-16 -translate-y-11 z-50 flex flex-col'>
             <div className="bg-indigo-400 w-full flex items-center justify-center" onClick={() => setIsActive(null)}>
                 <Link to="/"><img src="./logo-light.svg" alt="" className='h-8 my-4 px-4 hidden md:block cursor-pointer'  /></Link>
                 <Link to="/"><img src="./mobile-logo.svg" alt="" className='h-5 m-3 px-3 md:hidden block cursor-pointer'  /></Link>
