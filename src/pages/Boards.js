@@ -8,6 +8,7 @@ import Input from '../components/inputs';
 import DropDown from '../components/dropdowns/dropdown';
 import MultiSelectDropdown from '../components/dropdowns/multi-select-dropdown';
 import { FaPlus } from 'react-icons/fa';
+import useBoardData from '../custom hooks/useBoardData';
 
 
 const Boards = () => {
@@ -26,12 +27,11 @@ const Boards = () => {
     const piority = useRef();
     const taskName = useRef();
 
-    const [boardData, setBoardData] = useState([
-        { id: "21jk3j21", title: "Backlog", cards: [{ text: "Company website redesign.", piority: 0, participants: ["Hamza Nawab", "Rahim Nawab"] }, { text: "Mobile app login process prototype.", piority: 1, participants: ["Bruce Wayne"] }, { text: "Onboarding designs.", piority: 2, participants: "Tony Stark" }] },
-        { id: "3h5lkhklk", title: "In Process", cards: [{ text: "Research and strategy for upcoming development.", piority: 2, participants: ["Tony Stark"] }, { text: "Account profile flow diagrams.", piority: 1, participants: ["Bruce Wayne", "Tony Stark", "Hamza Nawab"] }, { text: "Slide templates for client pitch project.", piority: 0, participants: ["Hamza Nawab", "Tony Stark"] }, { text: "Review administrator console designs.", piority: 0, participants: "Bruce Wayne" }] },
-        { id: "jkl12j4d2", title: "Review", cards: [{ text: "Dashboard layout designs.", piority: 1, participants: ["Rahim Nawab", "Khuzaima Nawab"] }, { text: "Social media posts.", piority: 2, participants: ["Rahim Nawab", "Hamza Nawab", "Khuzaima Nawab", "Bruce Wayne", "Tony Stark"] }, { text: "Shopping cart and product catalog wireframes.", piority: 0, participants: ["Khuzaima Nawab"] }, { text: "End user flow charts.", piority: 1, participants: ["Bruce Wayne", "Rahim Nawab"] }] },
-        { id: "h12uhuk12", title: "Complete", cards: [{ text: "Review client spec document and give feedback.", piority: 0, participants: ["Hamza Nawab", "Tony Stark"] }, { text: "Navigation designs.", piority: 1, participants: ["Hamza Nawab"] }, { text: "User profile prototypes.", piority: 2, participants: [] }, { text: "Create style guide based on previous feedback.", piority: 2, participants: ["Rahim Nawab", "Hamza Nawab"] }] },
-    ]);
+    // Refs for comments
+    const commentModal = useRef();
+
+    const [boardData, setBoardData] = useBoardData();
+
     const [newTaskParticipants, setNewTaskParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [participantsList, setParticipantsList] = useState([]);
@@ -39,6 +39,11 @@ const Boards = () => {
     const removeBoardHandler = (index, e) => setBoardData(boardData.filter((_, i) => i !== index));
 
     // <========= Functions to trigger modals ==========> //
+    const triggerCommentsModal = (e) => {
+        commentModal.current.triggerModal();
+        console.log(e);
+    };
+
     const triggerParticipantsModal = (e) => {
         participantsModal.current.triggerModal();
         cardNumber.current = e.target.closest(".card").id.split("-")[1];
@@ -97,6 +102,19 @@ const Boards = () => {
     return (
         <AnimatePresence>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
+                {/* Modal of comments */}
+                <Modal ref={commentModal} heading="Comments" buttonText="Close" onSave={() => commentModal.current.triggerModal()}>
+                    <div className='w-full flex flex-col items-center justify-center space-y-2'>
+                        <div className='w-11/12 rounded-md space-y-1'>
+                            <p><span className='font-bold'>Heading:</span> This is a new world :D</p>
+                            <p><span className='font-bold'>Details:</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                        </div>
+                        <hr className='bg-gray-300 w-[95%]' />
+                        <div className='w-11/12'>
+                            
+                        </div>
+                    </div>
+                </Modal>
                 {/* Modal of adding/remove participant for specific cards button */}
                 <Modal ref={participantsModal} heading="Assign/Dismiss Participants" buttonText="Save changes" onSave={manuplateParticipants}>
                     <div className='flex justify-between grow w-full p-3 space-x-4'>
@@ -153,7 +171,7 @@ const Boards = () => {
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-x-auto w-full px-3'>
                     <AnimatePresence>
-                        {boardData.length > 0 ? boardData.map((value, i) => <CardHolder addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
+                        {boardData?.length > 0 ? boardData.map((value, i) => <CardHolder comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                     </AnimatePresence>
                 </div>
                 <div className='fixed bottom-5 right-5 bg-gradient-to-br from-blue-400 to-indigo-300 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center hover:brightness-110 active:brightness-90 z-50' onClick={e => triggerAddBoardModal()}><FaPlus className='text-white scale-150 p-1 md:p-0' /></div>
