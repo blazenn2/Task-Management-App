@@ -7,12 +7,13 @@ import { motion } from 'framer-motion'
 import { FiMessageSquare } from 'react-icons/fi'
 
 const Card = (props) => {
+    const date = `${("0" + new Date(props.date).getDate()).slice(-2)}-${new Date(props.date).toLocaleString('default', { month: 'long' }).split("").filter((_, i) => i <= 2).join("")}-${new Date(props.date).getFullYear().toString().split("").filter((_, i) => i > 1).join("")}`;
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} id={`card-${props.index}`} className={cardCSS(props.className)} draggable={true} onDragStart={(e) => props.dragStart(props.index, e, props.boardIndex)} onDragEnter={(e) => props.dragEnter(props.index, e, props.boardIndex)} onDragLeave={(e) => props.dragLeave(e, props.index, props.boardIndex)} onDragEnd={(e) => props.dragEnd(e)} onDragOver={(e) => props.dragOver(e, props.boardIndex)} onDrop={(e) => props.drop(e, props.index)} >
             <CardTag piority={props.piority} />
             <div className="text-gray-500 lg:text-base md:text-sm text-xs">{props.text}</div>
             <div className="flex justify-end items-center w-full">
-                <div className="hidden lg:block text-xs text-gray-500 grow">12th Dec-22</div>
+                <div className="hidden lg:block text-xs text-gray-500 grow">{date}</div>
                 <button onClick={e => props.onMsgClick(e)} className="lg:px-3 grow flex items-center justify-start lg:justify-end space-x-2 text-gray-400 hover:text-gray-500 cursor-pointer">
                     <FiMessageSquare className='scale-110' />
                     <span className='text-xs'>1</span>

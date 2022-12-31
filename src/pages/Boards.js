@@ -1,14 +1,17 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import CardHolder from '../components/card-holder'
 import { motion, AnimatePresence } from "framer-motion"
 import Modal from '../components/modals';
 import UserSmall from '../components/card/user-small';
 import UsernameTag from '../components/tags/username-tag';
 import Input from '../components/inputs';
+import MessageInput from '../components/inputs/messageinput';
 import DropDown from '../components/dropdowns/dropdown';
 import MultiSelectDropdown from '../components/dropdowns/multi-select-dropdown';
 import { FaPlus } from 'react-icons/fa';
 import useBoardData from '../custom hooks/useBoardData';
+import UserCircle from '../components/user-picture';
+import CommentCard from '../components/card/comment-card';
 
 
 const Boards = () => {
@@ -29,20 +32,27 @@ const Boards = () => {
 
     // Refs for comments
     const commentModal = useRef();
+    // const commentCard = useRef({ card: 0, board: 0 });
 
     const [boardData, setBoardData] = useBoardData();
 
     const [newTaskParticipants, setNewTaskParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [participantsList, setParticipantsList] = useState([]);
+    const [commentCard, setCommentCard] = useState({ card: 0, board: 0 });
 
     const removeBoardHandler = (index, e) => setBoardData(boardData.filter((_, i) => i !== index));
 
     // <========= Functions to trigger modals ==========> //
-    const triggerCommentsModal = (e) => {
+    const triggerCommentsModal = useCallback((e) => {
+        const element = e.target.closest(".card");
+        const card = Number(element.id.split("-")[1]);
+        const board = Number(element.closest(".board").id.split("-")[1]);
+        // commentCard.current = { card: card, board: board };
+        setCommentCard(prevItem => ({ card: card, board: board }));
+        console.log(commentCard.current);
         commentModal.current.triggerModal();
-        console.log(e);
-    };
+    }, [commentCard])
 
     const triggerParticipantsModal = (e) => {
         participantsModal.current.triggerModal();
@@ -104,14 +114,20 @@ const Boards = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
                 {/* Modal of comments */}
                 <Modal ref={commentModal} heading="Comments" buttonText="Close" onSave={() => commentModal.current.triggerModal()}>
-                    <div className='w-full flex flex-col items-center justify-center space-y-2'>
+                    <div className='w-full flex flex-col items-center justify-center space-y-2 py-3'>
                         <div className='w-11/12 rounded-md space-y-1'>
-                            <p><span className='font-bold'>Heading:</span> This is a new world :D</p>
+                            <p><span className='font-bold'>Task:</span> This is a new world :D</p>
                             <p><span className='font-bold'>Details:</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                         </div>
                         <hr className='bg-gray-300 w-[95%]' />
-                        <div className='w-11/12'>
-                            
+                        <div className='w-8/12'>
+                            <div className='max-h-80 space-y-2 overflow-y-auto mb-4'>
+                                {boardData && boardData[commentCard.board]?.cards[commentCard.card].chats?.map((chat, i) => <CommentCard key={i} name={chat.name} dateTime={chat.dateTime} text={chat.text} />)}
+                            </div>
+                            <div className='w-full flex items-center justify-between space-x-2'>
+                                <UserCircle buttonClassName="cursor-default" />
+                                <MessageInput placeholder="Enter your comment ..." type="text" />
+                            </div>
                         </div>
                     </div>
                 </Modal>

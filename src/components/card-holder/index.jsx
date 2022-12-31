@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Card from '../card'
 import { FiCornerRightDown, FiX } from "react-icons/fi";
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { cardHolderCSS } from './componentCSS';
 
 const CardHolder = (props) => {
+    console.log("Card holder rendered!");
     const headingGradient = ["from-fuchsia-400 to-pink-600", "from-blue-300 to-indigo-500", "from-green-300 to-blue-300", "from-red-400 to-amber-400", "from-pink-400 to-blue-400", "from-orange-300 to-amber-600"];
     const randomIndex = useMemo(() => Math.floor(Math.random() * headingGradient.length), [headingGradient.length]);
 
@@ -124,7 +125,7 @@ const CardHolder = (props) => {
             </div>
             <div className="space-y-3 w-full h-[80%] flex flex-col items-center overflow-y-scroll">
                 <AnimatePresence>
-                    {props.card?.map((value, i) => <Card key={i} onMsgClick={msgClickHandler} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
+                    {props.card?.map((value, i) => <Card key={i} onMsgClick={msgClickHandler} date={value.initiatedDate} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
                 </AnimatePresence>
             </div>
             <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100 z-30">
@@ -134,4 +135,4 @@ const CardHolder = (props) => {
     )
 }
 
-export default CardHolder
+export default memo(CardHolder)
