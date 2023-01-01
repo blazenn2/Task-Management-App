@@ -16,74 +16,6 @@ const CardHolder = (props) => {
     const dragOverItem = useRef();
     const cardTransferFlag = useRef();
 
-    const onDragStart = (position, e, boardIndex) => {
-        [...document.querySelectorAll(".card-drop")].forEach(value => {
-            value.classList.add("opacity-100", "h-10", "px-3", "py-2");
-            value.classList.remove("opacity-0", "h-0", "p-0", "!mt-0");
-            [...value.children].forEach(val => val.classList.remove("h-0"));
-        });
-        dragItem.current = { cardIndex: position, boardIndex: boardIndex };
-        e.target.classList.add("!opacity-50");
-        e.dataTransfer.setData('text/html', `${position}:${boardIndex}`);
-    };
-
-    const onDragEnter = (position, e, boardIndex) => {
-        cardTransferFlag.current = false;
-        dragOverItem.current = { cardIndex: position, boardIndex: boardIndex };
-        if (boardIndex === dragItem.current?.boardIndex) {
-            if (e.target.id) e.target.classList.add("motion-safe:animate-pulse");
-            else e.target.closest(`#card-${position}`).classList.add("motion-safe:animate-pulse");
-        }
-    };
-
-    const onDragLeave = (e, position, boardIndex) => {
-        if (boardIndex === dragItem.current?.boardIndex) {
-            if (e.target.id) e.target.classList.remove("motion-safe:animate-pulse");
-            else e.target.closest(`#card-${position}`).classList.remove("motion-safe:animate-pulse");
-        }
-    };
-
-    const onDragOver = (e, boardIndex) => {
-        cardTransferFlag.current = false;
-        e.preventDefault();
-        if (boardIndex === dragItem.current?.boardIndex) {
-            if (e.target.id) {
-                if (![...e.target.classList].includes("motion-safe:animate-pulse")) e.target.classList.add("motion-safe:animate-pulse");
-            } else {
-                if (![...e.target.closest(`#card-${dragOverItem.current.cardIndex}`)?.classList]?.includes("motion-safe:animate-pulse")) e.target.closest(`#card-${dragOverItem.current.cardIndex}`).classList.add("motion-safe:animate-pulse");
-            }
-        }
-    };
-
-    const onDragEnd = (e) => {
-        [...document.querySelectorAll(".card-drop")].forEach(value => {
-            value.classList.remove("opacity-100", "h-10", "px-3", "py-2");
-            value.classList.add("opacity-0", "h-0", "p-0", "!mt-0");
-            [...value.children].forEach(val => val.classList.add("h-0"));
-        });
-        if ([...e.target.classList].includes("!opacity-50")) e.target.classList.remove("!opacity-50");
-    };
-
-    const onDrop = (e, position) => {
-        if (e.target.id) {
-            e.target.classList.remove("motion-safe:animate-pulse");
-        } else {
-            e.target.closest(`#card-${position}`).classList.remove("motion-safe:animate-pulse");
-        }
-
-        if (dragItem.current?.boardIndex === dragOverItem.current?.boardIndex && dragItem.current?.cardIndex !== dragOverItem.current?.cardIndex && cardTransferFlag.current === false) {
-            const tempData = [...props.data[props.index].cards];
-            const dragContent = tempData[dragItem.current.cardIndex];
-            tempData.splice(dragItem.current.cardIndex, 1);
-            tempData.splice(dragOverItem.current.cardIndex, 0, dragContent);
-            dragItem.current = null;
-            dragOverItem.current = null;
-            const tempObject = props.data;
-            tempObject[props.index].cards = tempData;
-            props.changeData([...tempObject]);
-        }
-    };
-
     const btnClickHandler = (e) => props.triggerModal(e);
 
     const msgClickHandler = (e) => props.comments(e);
@@ -125,7 +57,7 @@ const CardHolder = (props) => {
             </div>
             <div className="space-y-3 w-full h-[80%] flex flex-col items-center overflow-y-scroll">
                 <AnimatePresence>
-                    {props.card?.map((value, i) => <Card key={i} onMsgClick={msgClickHandler} date={value.initiatedDate} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} index={i} text={value.text} piority={value.piority} dragStart={onDragStart} dragEnter={onDragEnter} dragLeave={onDragLeave} dragEnd={onDragEnd} dragOver={onDragOver} drop={onDrop} />)}
+                    {props.card?.map((value, i) => <Card key={i} onMsgClick={msgClickHandler} date={value.initiatedDate} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} boardData={props.data} changeBoardData={props.changeData} index={i} text={value.text} piority={value.piority} dragItem={dragItem} dragOverItem={dragOverItem} cardTransferFlag={cardTransferFlag} />)}
                 </AnimatePresence>
             </div>
             <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100 z-30">
@@ -135,4 +67,10 @@ const CardHolder = (props) => {
     )
 }
 
-export default memo(CardHolder)
+// const compare = (prevProps, nextProps) => {
+//     console.log(prevProps);
+//     console.log(nextProps);
+//     return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+// }
+
+export default memo(CardHolder);

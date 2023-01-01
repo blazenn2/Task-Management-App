@@ -5,11 +5,12 @@ import UserCircle from '../user-picture'
 import { cardCSS } from './componentCSS'
 import { motion } from 'framer-motion'
 import { FiMessageSquare } from 'react-icons/fi'
+import { onDragStart, onDragEnd, onDragEnter, onDragLeave, onDragOver, onDrop } from '../../utils/drag-events'
 
 const Card = (props) => {
     const date = `${("0" + new Date(props.date).getDate()).slice(-2)}-${new Date(props.date).toLocaleString('default', { month: 'long' }).split("").filter((_, i) => i <= 2).join("")}-${new Date(props.date).getFullYear().toString().split("").filter((_, i) => i > 1).join("")}`;
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} id={`card-${props.index}`} className={cardCSS(props.className)} draggable={true} onDragStart={(e) => props.dragStart(props.index, e, props.boardIndex)} onDragEnter={(e) => props.dragEnter(props.index, e, props.boardIndex)} onDragLeave={(e) => props.dragLeave(e, props.index, props.boardIndex)} onDragEnd={(e) => props.dragEnd(e)} onDragOver={(e) => props.dragOver(e, props.boardIndex)} onDrop={(e) => props.drop(e, props.index)} >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} id={`card-${props.index}`} className={cardCSS(props.className)} draggable={true} onDragStart={(e) => onDragStart(props.index, e, props.boardIndex, props.dragItem)} onDragEnter={(e) => onDragEnter(props.index, e, props.boardIndex, props.cardTransferFlag, props.dragOverItem, props.dragItem)} onDragLeave={(e) => onDragLeave(e, props.index, props.boardIndex, props.dragItem)} onDragEnd={(e) => onDragEnd(e)} onDragOver={(e) => onDragOver(e, props.boardIndex, props.cardTransferFlag, props.dragItem, props.dragOverItem)} onDrop={(e) => onDrop(e, props.index, props.dragItem, props.dragOverItem, props.cardTransferFlag, props.boardData, props.boardIndex, props.changeBoardData)} >
             <CardTag piority={props.piority} />
             <div className="text-gray-500 lg:text-base md:text-sm text-xs">{props.text}</div>
             <div className="flex justify-end items-center w-full">

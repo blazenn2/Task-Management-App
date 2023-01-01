@@ -48,27 +48,25 @@ const Boards = () => {
         const element = e.target.closest(".card");
         const card = Number(element.id.split("-")[1]);
         const board = Number(element.closest(".board").id.split("-")[1]);
-        // commentCard.current = { card: card, board: board };
-        setCommentCard(prevItem => ({ card: card, board: board }));
-        console.log(commentCard.current);
+        setCommentCard({ card: card, board: board });
         commentModal.current.triggerModal();
-    }, [commentCard])
+    }, [])
 
-    const triggerParticipantsModal = (e) => {
+    const triggerParticipantsModal = useCallback((e) => {
         participantsModal.current.triggerModal();
         cardNumber.current = e.target.closest(".card").id.split("-")[1];
         boardNumber.current = e.target.closest(".board").id.split("-")[1];
         const participants = boardData[boardNumber.current].cards[cardNumber.current].participants;
         setParticipantsList(participants);
         setAddRemoveParticipants(addRemoveParticipants.map(value => participants.includes(value.name) ? { ...value, checked: true } : { ...value, checked: false }));
-    };
+    }, [addRemoveParticipants, boardData]);
 
-    const triggerAddCardModal = (e) => {
+    const triggerAddCardModal = useCallback((e) => {
         addCardModal.current.triggerModal();
         currentBoard.current = e.target.closest(".board");
-    };
+    }, []);
 
-    const triggerAddBoardModal = () => addBoardModal.current.triggerModal();
+    const triggerAddBoardModal = useCallback(() => addBoardModal.current.triggerModal(), []);
 
     // <========= Functions performing functionality on saving button =========> //
 
@@ -195,5 +193,13 @@ const Boards = () => {
         </AnimatePresence>
     )
 }
+
+// const WrapperHolder = (props) => {
+//     return ({ props.boardData?.length > 0 ? props.boardData.map((value, i) => <CardHolder comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={props.boardData} />) : <h1>No boards</h1> })
+// }
+
+// const WrapperHolderMemo = () => {
+//     return React.memo(WrapperHolder);
+// };
 
 export default Boards
