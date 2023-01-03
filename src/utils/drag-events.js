@@ -65,3 +65,25 @@ export const onDrop = (e, position, dragItem, dragOverItem, cardTransferFlag, da
         changeData([...tempObject]);
     }
 };
+
+
+export const newBoardCardDragOver = (e, cardTransferFlag, dragItem, dragOverItem) => {
+    cardTransferFlag.current = true;
+    e.target.closest(".card-drop").classList.add("bg-violet-200")
+    e.stopPropagation();
+    e.preventDefault();
+};
+
+export const newBoardCardDragLeave = (e) => {
+    e.target.closest(".card-drop").classList.remove("bg-violet-200");
+};
+
+export const newBoardCardDrop = (e, index, data, changeData) => {
+    e.target.closest(".card-drop").classList.remove("bg-violet-200");
+    const [card, board] = e.dataTransfer.getData("text/html").split(":");
+    if (Number(board) !== index) {
+        const taskData = data;
+        const newTaskData = taskData.map((value, i) => i === Number(index) ? { ...value, cards: [data[board].cards[card], ...value.cards] } : Number(board) === i ? { ...value, cards: value.cards.filter((_, ind) => ind !== Number(card)) } : value);
+        changeData(newTaskData);
+    }
+};

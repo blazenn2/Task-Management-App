@@ -120,7 +120,7 @@ const Boards = () => {
                         <hr className='bg-gray-300 w-[95%]' />
                         <div className='w-8/12'>
                             <div className='max-h-80 space-y-2 overflow-y-auto mb-4'>
-                                {boardData && boardData[commentCard.board]?.cards[commentCard.card].chats?.map((chat, i) => <CommentCard key={i} name={chat.name} dateTime={chat.dateTime} text={chat.text} />)}
+                                {boardData && boardData[commentCard.board]?.cards[commentCard.card]?.chats?.map((chat, i) => <CommentCard key={i} name={chat.name} dateTime={chat.dateTime} text={chat.text} />)}
                             </div>
                             <div className='w-full flex items-center justify-between space-x-2'>
                                 <UserCircle buttonClassName="cursor-default" />
@@ -185,6 +185,7 @@ const Boards = () => {
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-x-auto w-full px-3'>
                     <AnimatePresence>
+                        {/* <WrapperHolder boardData={boardData} triggerCommentsModal={triggerCommentsModal} triggerAddCardModal={triggerAddCardModal} triggerParticipantsModal={triggerParticipantsModal} removeBoardHandler={removeBoardHandler} setBoardData={setBoardData} /> */}
                         {boardData?.length > 0 ? boardData.map((value, i) => <CardHolder comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                     </AnimatePresence>
                 </div>
@@ -194,11 +195,11 @@ const Boards = () => {
     )
 }
 
-// const WrapperHolder = (props) => {
-//     return ({ props.boardData?.length > 0 ? props.boardData.map((value, i) => <CardHolder comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={props.boardData} />) : <h1>No boards</h1> })
-// }
+// const WrapperHolder = React.memo((props) => {
+//     return (props.boardData?.length > 0 ? props.boardData.map((value, i) => <CardHolder comments={props.triggerCommentsModal} addTaskHandler={props.triggerAddCardModal} triggerModal={props.triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={props.removeBoardHandler} changeData={props.setBoardData} data={props.boardData} />) : <h1>No boards</h1>)
+// })
 
-// const WrapperHolderMemo = () => {
+// const WrapperHolderMemo = (props) => {
 //     return React.memo(WrapperHolder);
 // };
 
