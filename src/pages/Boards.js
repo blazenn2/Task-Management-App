@@ -15,10 +15,11 @@ import CommentCard from '../components/card/comment-card';
 
 
 const Boards = () => {
+    // Data for this component
+    const data = useRef({ participant: { board: null, card: null }, board: null });
+
     // Refs for participants
     const participantsModal = useRef();
-    const boardNumber = useRef();
-    const cardNumber = useRef();
 
     // Refs for adding board
     const addBoardModal = useRef();
@@ -26,19 +27,22 @@ const Boards = () => {
 
     // Refs for adding a new task
     const addCardModal = useRef();
-    const currentBoard = useRef();
     const piority = useRef();
     const taskName = useRef();
 
     // Refs for comments
     const commentModal = useRef();
-    // const commentCard = useRef({ card: 0, board: 0 });
+    const messageInput = useRef();
 
+    // Custom hooks
     const [boardData, setBoardData] = useBoardData();
 
+    // States for manuplating participants
     const [newTaskParticipants, setNewTaskParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [participantsList, setParticipantsList] = useState([]);
+    
+    // States for comment card
     const [commentCard, setCommentCard] = useState({ card: 0, board: 0 });
 
     const removeBoardHandler = (index, e) => setBoardData(boardData.filter((_, i) => i !== index));
@@ -50,20 +54,19 @@ const Boards = () => {
         const board = Number(element.closest(".board").id.split("-")[1]);
         setCommentCard({ card: card, board: board });
         commentModal.current.triggerModal();
-    }, [])
+    }, []);
 
     const triggerParticipantsModal = useCallback((e) => {
         participantsModal.current.triggerModal();
-        cardNumber.current = e.target.closest(".card").id.split("-")[1];
-        boardNumber.current = e.target.closest(".board").id.split("-")[1];
-        const participants = boardData[boardNumber.current].cards[cardNumber.current].participants;
+        data.current.participant = { board: e.target.closest(".board").id.split("-")[1], card: e.target.closest(".card").id.split("-")[1] }
+        const participants = boardData[data.current.participant.board].cards[data.current.participant.card].participants;
         setParticipantsList(participants);
         setAddRemoveParticipants(addRemoveParticipants.map(value => participants.includes(value.name) ? { ...value, checked: true } : { ...value, checked: false }));
     }, [addRemoveParticipants, boardData]);
 
     const triggerAddCardModal = useCallback((e) => {
         addCardModal.current.triggerModal();
-        currentBoard.current = e.target.closest(".board");
+        data.current.board = e.target.closest(".board");
     }, []);
 
     const triggerAddBoardModal = useCallback(() => addBoardModal.current.triggerModal(), []);
@@ -79,11 +82,11 @@ const Boards = () => {
 
     // <========= For adding a new task =========> //
     const createNewTask = () => {
-        const boardIndex = Number(currentBoard.current.id.split("-")[1]);
+        const boardIndex = Number(data.current.board.id.split("-")[1]);
         const participantsArray = newTaskParticipants.filter(value => value.checked).map(value => value.name);
         const newBoardData = boardData.map((value, i) => {
             if (i === boardIndex) {
-                value.cards.push({ text: taskName.current.value, piority: piority.current === "Low Piority" ? 0 : piority.current === "High Piority" ? 2 : 1, participants: participantsArray })
+                value.cards.push({ text: taskName.current.value, piority: piority.current === "Low Piority" ? 0 : piority.current === "High Piority" ? 2 : 1, participants: participantsArray, chats: [] })
             };
             return value;
         });
@@ -100,11 +103,30 @@ const Boards = () => {
         participantsModal.current.triggerModal();
         const participants = addRemoveParticipants.filter(value => value.checked).map(value => value.name);
         setBoardData(boardData.map((value, i) => {
-            if (i === Number(boardNumber.current)) {
-                value.cards[cardNumber.current].participants = participants;
+            if (i === Number(data.current.participant.board)) {
+                value.totalParticipants = participants.length;
+                value.cards[data.current.participant.card].participants = participants;
             }
             return value;
         }));
+    };
+
+    // <========= For adding new comments =========> //
+    const addTextToComments = () => {
+        const newBoardData = boardData.map((value, i) => {
+            if (i === Number(commentCard.board)) {
+                value.cards[commentCard.card].chats.push({
+                    name: "Test User",
+                    text: messageInput.current.value,
+                    dateTime: new Date(new Date().setDate(new Date().getDate()))
+                });
+                value.chatCount++;
+            };
+
+            return value;
+        })
+        messageInput.current.value = "";
+        setBoardData(newBoardData);
     };
 
     return (
@@ -114,8 +136,8 @@ const Boards = () => {
                 <Modal ref={commentModal} heading="Comments" buttonText="Close" onSave={() => commentModal.current.triggerModal()}>
                     <div className='w-full flex flex-col items-center justify-center space-y-2 py-3'>
                         <div className='w-11/12 rounded-md space-y-1'>
-                            <p><span className='font-bold'>Task:</span> This is a new world :D</p>
-                            <p><span className='font-bold'>Details:</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <p><span className='font-bold'>Task:</span> {boardData?.length > 0 && boardData[commentCard.board].cards[commentCard.card].title}</p>
+                            <p><span className='font-bold'>Details:</span> {boardData?.length > 0 && boardData[commentCard.board].cards[commentCard.card].details}</p>
                         </div>
                         <hr className='bg-gray-300 w-[95%]' />
                         <div className='w-8/12'>
@@ -124,7 +146,7 @@ const Boards = () => {
                             </div>
                             <div className='w-full flex items-center justify-between space-x-2'>
                                 <UserCircle buttonClassName="cursor-default" />
-                                <MessageInput placeholder="Enter your comment ..." type="text" />
+                                <MessageInput reference={messageInput} onSubmit={addTextToComments} placeholder="Enter your comment ..." type="text" />
                             </div>
                         </div>
                     </div>
@@ -185,8 +207,7 @@ const Boards = () => {
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-x-auto w-full px-3'>
                     <AnimatePresence>
-                        {/* <WrapperHolder boardData={boardData} triggerCommentsModal={triggerCommentsModal} triggerAddCardModal={triggerAddCardModal} triggerParticipantsModal={triggerParticipantsModal} removeBoardHandler={removeBoardHandler} setBoardData={setBoardData} /> */}
-                        {boardData?.length > 0 ? boardData.map((value, i) => <CardHolder comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
+                        {boardData?.length > 0 ? boardData.map((value, i) => <CardHolder cardLength={value.cards.length} chatLenght={value.chatCount} participantCount={value.totalParticipants} comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                     </AnimatePresence>
                 </div>
                 <div className='fixed bottom-5 right-5 bg-gradient-to-br from-blue-400 to-indigo-300 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center hover:brightness-110 active:brightness-90 z-50' onClick={e => triggerAddBoardModal()}><FaPlus className='text-white scale-150 p-1 md:p-0' /></div>
@@ -194,13 +215,5 @@ const Boards = () => {
         </AnimatePresence>
     )
 }
-
-// const WrapperHolder = React.memo((props) => {
-//     return (props.boardData?.length > 0 ? props.boardData.map((value, i) => <CardHolder comments={props.triggerCommentsModal} addTaskHandler={props.triggerAddCardModal} triggerModal={props.triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={props.removeBoardHandler} changeData={props.setBoardData} data={props.boardData} />) : <h1>No boards</h1>)
-// })
-
-// const WrapperHolderMemo = (props) => {
-//     return React.memo(WrapperHolder);
-// };
 
 export default Boards

@@ -2,7 +2,6 @@ import UserCircle from "../user-picture"
 
 const CommentCard = (props) => {
     const convertedTime = `${("0" + new Date(props.dateTime).getDate()).slice(-2)}-${new Date(props.dateTime).toLocaleString('default', { month: 'long' }).split("").filter((_, i) => i <= 2).join("")}-${new Date(props.dateTime).getFullYear()} at ${new Date(props.dateTime).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}`;
-    console.log(convertedTime);
     return (
         <>
             <div className="w-full flex items-start justify-between space-x-4">
