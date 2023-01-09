@@ -8,7 +8,7 @@ const CommentCard = (props) => {
                 <UserCircle buttonClassName="cursor-default" />
                 <div className="flex flex-col grow bg-slate-100 rounded-md space-y-1 p-2">
                     <p className="text-xs font-bold">{props.name}</p>
-                    <p className="text-sm">{props.text}</p>
+                    <p className="md:text-sm text-xs">{props.text}</p>
                     <p className="text-xs text-gray-500">{convertedTime}</p>
                 </div>
             </div>

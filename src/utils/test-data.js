@@ -1,8 +1,8 @@
 export const board = [{
     id: "21jk3j21",
     title: "Backlog",
-    totalParticipants: 4,
-    chatCount: 6,
+    // totalParticipants: 4,
+    // chatCount: 6,
     cards: [
         {
             title: "Company website redesign.",
@@ -84,8 +84,8 @@ export const board = [{
 {
     id: "3h5lkhklk",
     title: "In Process",
-    totalParticipants: 7,
-    chatCount: 7,
+    // totalParticipants: 7,
+    // chatCount: 7,
     cards: [
         {
             title: "Research and strategy for upcoming development.",
@@ -186,8 +186,8 @@ export const board = [{
 {
     id: "jkl12j4d2",
     title: "Review",
-    totalParticipants: 10,
-    chatCount: 5,
+    // totalParticipants: 10,
+    // chatCount: 5,
     cards: [
         {
             title: "Dashboard layout designs.",
@@ -269,8 +269,8 @@ export const board = [{
 {
     id: "h12uhuk12",
     title: "Complete",
-    totalParticipants: 5,
-    chatCount: 9,
+    // totalParticipants: 5,
+    // chatCount: 9,
     cards: [
         {
             title: "Review client spec document and give feedback.",

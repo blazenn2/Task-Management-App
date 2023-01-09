@@ -51,11 +51,7 @@ const CardHolder = (props) => {
 }
 
 const compare = (prevProps, nextProps) => {
-    // console.log(prevProps)
-    // const prevParticipants = prevProps.card.reduce((accum, currValue) => Number(accum) + Number(currValue.participants.length), 0);
-    // const nextParticipants = nextProps.card.reduce((accum, currValue) => Number(accum) + Number(currValue.participants.length), 0);
-    // console.log(prevParticipants, nextParticipants)
-    console.log(prevProps, nextProps)
+    // console.log(prevProps, nextProps)
     return JSON.stringify(prevProps) === JSON.stringify(nextProps);
 }
 

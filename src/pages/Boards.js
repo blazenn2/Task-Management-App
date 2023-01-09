@@ -1,17 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react'
 import CardHolder from '../components/card-holder'
 import { motion, AnimatePresence } from "framer-motion"
-import Modal from '../components/modals';
-import UserSmall from '../components/card/user-small';
-import UsernameTag from '../components/tags/username-tag';
-import Input from '../components/inputs';
-import MessageInput from '../components/inputs/messageinput';
-import DropDown from '../components/dropdowns/dropdown';
-import MultiSelectDropdown from '../components/dropdowns/multi-select-dropdown';
 import { FaPlus } from 'react-icons/fa';
 import useBoardData from '../custom hooks/useBoardData';
-import UserCircle from '../components/user-picture';
-import CommentCard from '../components/card/comment-card';
+import CommentModal from '../components/modals/comment-modal';
+import ParticipantsModal from '../components/modals/participants-modal';
+import NewTaskModal from '../components/modals/new-task-modal';
+import NewBoardModal from '../components/modals/new-board-modal';
 
 
 const Boards = () => {
@@ -23,25 +18,25 @@ const Boards = () => {
 
     // Refs for adding board
     const addBoardModal = useRef();
-    const boardInput = useRef();
 
     // Refs for adding a new task
     const addCardModal = useRef();
-    const piority = useRef();
-    const taskName = useRef();
 
     // Refs for comments
     const commentModal = useRef();
-    const messageInput = useRef();
 
     // Custom hooks
-    const [boardData, setBoardData] = useBoardData();
+    const [boardData, setBoardData, chatLength, participantLength] = useBoardData();
+
+    // console.log(participantLength)
 
     // States for manuplating participants
     const [newTaskParticipants, setNewTaskParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [addRemoveParticipants, setAddRemoveParticipants] = useState([{ name: "Hamza Nawab", checked: false }, { name: "Rahim Nawab", checked: false }, { name: "Khuzaima Nawab", checked: false }, { name: "Tony Stark", checked: false }, { name: "Bruce Wayne", checked: false }]);
     const [participantsList, setParticipantsList] = useState([]);
-    
+
+    const participantStateLength = newTaskParticipants.filter(value => value.checked).length;
+
     // States for comment card
     const [commentCard, setCommentCard] = useState({ card: 0, board: 0 });
 
@@ -71,143 +66,21 @@ const Boards = () => {
 
     const triggerAddBoardModal = useCallback(() => addBoardModal.current.triggerModal(), []);
 
-    // <========= Functions performing functionality on saving button =========> //
-
-    // <========= For adding a new board =========> //
-    const createNewBoard = () => {
-        const obj = { id: Math.random().toString(36).slice(2), title: boardInput.current.value, cards: [] };
-        setBoardData([...boardData, obj]);
-        addBoardModal.current.triggerModal();
-    };
-
-    // <========= For adding a new task =========> //
-    const createNewTask = () => {
-        const boardIndex = Number(data.current.board.id.split("-")[1]);
-        const participantsArray = newTaskParticipants.filter(value => value.checked).map(value => value.name);
-        const newBoardData = boardData.map((value, i) => {
-            if (i === boardIndex) {
-                value.cards.push({ text: taskName.current.value, piority: piority.current === "Low Piority" ? 0 : piority.current === "High Piority" ? 2 : 1, participants: participantsArray, chats: [] })
-            };
-            return value;
-        });
-        setBoardData(newBoardData);
-        setNewTaskParticipants(newTaskParticipants.map(value => {
-            value.checked = false;
-            return value;
-        }));
-        addCardModal.current.triggerModal();
-    };
-
-    // <========= For adding/removing participants from a task =========> //
-    const manuplateParticipants = () => {
-        participantsModal.current.triggerModal();
-        const participants = addRemoveParticipants.filter(value => value.checked).map(value => value.name);
-        setBoardData(boardData.map((value, i) => {
-            if (i === Number(data.current.participant.board)) {
-                value.totalParticipants = participants.length;
-                value.cards[data.current.participant.card].participants = participants;
-            }
-            return value;
-        }));
-    };
-
-    // <========= For adding new comments =========> //
-    const addTextToComments = () => {
-        const newBoardData = boardData.map((value, i) => {
-            if (i === Number(commentCard.board)) {
-                value.cards[commentCard.card].chats.push({
-                    name: "Test User",
-                    text: messageInput.current.value,
-                    dateTime: new Date(new Date().setDate(new Date().getDate()))
-                });
-                value.chatCount++;
-            };
-
-            return value;
-        })
-        messageInput.current.value = "";
-        setBoardData(newBoardData);
-    };
-
     return (
         <AnimatePresence>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="absolute bottom-0 right-0 flex grow flex-col items-end md:w-[90%] w-10/12 h-screen pt-20 px-6 bg-violet-100 overflow-auto">
                 {/* Modal of comments */}
-                <Modal ref={commentModal} heading="Comments" buttonText="Close" onSave={() => commentModal.current.triggerModal()}>
-                    <div className='w-full flex flex-col items-center justify-center space-y-2 py-3'>
-                        <div className='w-11/12 rounded-md space-y-1'>
-                            <p><span className='font-bold'>Task:</span> {boardData?.length > 0 && boardData[commentCard.board].cards[commentCard.card].title}</p>
-                            <p><span className='font-bold'>Details:</span> {boardData?.length > 0 && boardData[commentCard.board].cards[commentCard.card].details}</p>
-                        </div>
-                        <hr className='bg-gray-300 w-[95%]' />
-                        <div className='w-8/12'>
-                            <div className='max-h-80 space-y-2 overflow-y-auto mb-4'>
-                                {boardData && boardData[commentCard.board]?.cards[commentCard.card]?.chats?.map((chat, i) => <CommentCard key={i} name={chat.name} dateTime={chat.dateTime} text={chat.text} />)}
-                            </div>
-                            <div className='w-full flex items-center justify-between space-x-2'>
-                                <UserCircle buttonClassName="cursor-default" />
-                                <MessageInput reference={messageInput} onSubmit={addTextToComments} placeholder="Enter your comment ..." type="text" />
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                <CommentModal reference={commentModal} onSave={() => commentModal.current.triggerModal()} commentCard={commentCard} boardData={boardData} setBoardData={setBoardData} chatLength={chatLength} />
                 {/* Modal of adding/remove participant for specific cards button */}
-                <Modal ref={participantsModal} heading="Assign/Dismiss Participants" buttonText="Save changes" onSave={manuplateParticipants}>
-                    <div className='flex justify-between grow w-full p-3 space-x-4'>
-                        <div className='relative w-1/2 space-y-2'>
-                            <h2 className='lg:text-lg md:text-base text-sm font-semibold'>Add/Remove Participants</h2>
-                            <MultiSelectDropdown buttonText="Select Participants" state={addRemoveParticipants} setState={setAddRemoveParticipants} />
-                            <div className='flex flex-wrap grow max-h-32 overflow-auto'>
-                                <AnimatePresence>
-                                    {addRemoveParticipants.map((value, i) => value.checked && <UsernameTag state={addRemoveParticipants} setState={setAddRemoveParticipants} key={i} name={value.name} />)}
-                                </AnimatePresence>
-                            </div>
-                        </div>
-                        <div className='w-px my-2 bg-slate-400'></div>
-                        <div className='w-2/4 flex flex-col space-y-2'>
-                            <h3 className='lg:text-lg md:text-base text-sm font-semibold'>Participants List</h3>
-                            <div className='border border-slate-500 rounded-md flex flex-col items-center justify-start grow max-h-44 w-full overflow-y-auto'>
-                                {participantsList.map((value, i) => <UserSmall key={i} name={value} />)}
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                <ParticipantsModal reference={participantsModal} data={data} participantsList={participantsList} addRemoveParticipants={addRemoveParticipants} setAddRemoveParticipants={setAddRemoveParticipants} setBoardData={setBoardData} boardData={boardData} />
                 {/* Modal of adding a new task to the board */}
-                <Modal ref={addCardModal} heading="Add a new Task" buttonText="Save Changes" onSave={createNewTask}>
-                    <div className='flex md:flex-row flex-col justify-between grow p-3 w-full md:space-x-4'>
-                        <div className='flex md:w-1/2 w-full flex-col space-y-4'>
-                            <Input labelClassName="p-0 md:p-1" text="Name" reference={taskName} />
-                            <div className='w-full flex items-center md:pl-1 space-x-4 relative'>
-                                <span>Piority</span>
-                                <DropDown options={["Low Piority", "Medium Piority", "High Piority"]} buttonText="Select Piority" btnCSS="w-40" choosePiority={piority} />
-                            </div>
-                        </div>
-                        <div className='w-px my-2 bg-slate-400 '></div>
-                        <div className='relative md:w-1/2 space-y-2 flex flex-col'>
-                            <div className='flex items-center space-x-4 w-full'>
-                                <span className=''>Add Participants</span>
-                                <div className='w-2/3'>
-                                    <MultiSelectDropdown btnCSS="sm:w-3/4 md:w-full" buttonText="Select Participants" state={newTaskParticipants} setState={setNewTaskParticipants} />
-                                </div>
-                            </div>
-                            <div className='flex flex-wrap max-h-20 overflow-auto'>
-                                <AnimatePresence>
-                                    {newTaskParticipants.map((value, i) => value.checked && <UsernameTag state={newTaskParticipants} setState={setNewTaskParticipants} key={i} name={value.name} />)}
-                                </AnimatePresence>
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                <NewTaskModal reference={addCardModal} newTaskParticipants={newTaskParticipants} setNewTaskParticipants={setNewTaskParticipants} data={data} boardData={boardData} setBoardData={setBoardData} participantStateLength={participantStateLength} />
                 {/* Modal for adding a new board */}
-                <Modal ref={addBoardModal} heading="Add a new Board" buttonText="Save Changes" onSave={createNewBoard}>
-                    <div className='flex justify-start items-center w-full grow px-4'>
-                        <Input text="Board Name" className="w-[85%]" reference={boardInput} />
-                    </div>
-                </Modal>
+                <NewBoardModal reference={addBoardModal} boardData={boardData} setBoardData={setBoardData} />
                 <div className="w-full py-5 mb-3 text-3xl text-gray-500 px-3">Studio Board</div>
                 <div className='flex space-x-4 h-[85%] min-h-[28rem] overflow-x-auto w-full px-3'>
                     <AnimatePresence>
-                        {boardData?.length > 0 ? boardData.map((value, i) => <CardHolder cardLength={value.cards.length} chatLenght={value.chatCount} participantCount={value.totalParticipants} comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
+                        {boardData?.length > 0 ? boardData.map((value, i) => <CardHolder cardLength={value.cards.length} chatLength={chatLength[i]} participantCount={participantLength[i]} comments={triggerCommentsModal} addTaskHandler={triggerAddCardModal} triggerModal={triggerParticipantsModal} key={value.title} id={value.id} index={i} title={value.title} card={value.cards} removeBoard={removeBoardHandler} changeData={setBoardData} data={boardData} />) : <h1>No boards</h1>}
                     </AnimatePresence>
                 </div>
                 <div className='fixed bottom-5 right-5 bg-gradient-to-br from-blue-400 to-indigo-300 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center hover:brightness-110 active:brightness-90 z-50' onClick={e => triggerAddBoardModal()}><FaPlus className='text-white scale-150 p-1 md:p-0' /></div>
