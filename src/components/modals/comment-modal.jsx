@@ -52,6 +52,8 @@ const CommentModal = (props) => {
 }
 
 const compare = (prevProps, nextProps) => {
+    // console.log(prevProps.editCardData, nextProps.editCardData);
+    // if (nextProps.editCardData.name !== null && prevProps.editCardData.name === null) return true;
     return JSON.stringify(prevProps) === JSON.stringify(nextProps);
 };
 

@@ -46,9 +46,8 @@ const Modal = forwardRef((props, ref) => {
                     transition={{ duration: 0.5 }}
                     onClick={e => {
                         e.stopPropagation();
-                        
                     }}
-                    className='absolute bg-white w-11/12 md:w-2/3 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between'>
+                    className={`${props.className} absolute bg-white w-11/12 md:w-2/3 rounded-lg shadow-lg border border-slate-400 z-50 flex flex-col items-center justify-between`}>
                     <div className="border-b border-slate-400 w-full sm:p-4 p-2 flex items-center justify-between">
                         <p className='lg:text-xl text-base font-semibold'>{props.heading}</p>
                         <FiX className='md:scale-150 cursor-pointer' onClick={() => setModalIsOpen(false)} />

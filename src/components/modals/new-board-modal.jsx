@@ -3,7 +3,7 @@ import Modal from '.'
 import Input from '../inputs';
 
 const NewBoardModal = (props) => {
-    console.log("new board modal rendered!");
+    // console.log("new board modal rendered!");
     const boardInput = useRef();
 
     const createNewBoard = () => {

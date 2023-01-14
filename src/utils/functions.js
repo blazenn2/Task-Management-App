@@ -19,7 +19,8 @@ export const toggleDropdownMenu = (dropDownElement) => {
 };
 
 export const clickSelectHandler = (optionElement, btnElement) => {
-    btnElement.textContent = optionElement.textContent;
+    if (typeof optionElement === "string") btnElement.textContent = optionElement; 
+    else btnElement.textContent = optionElement.textContent;
     btnElement.parentElement.value = optionElement.textContent;
 };
 

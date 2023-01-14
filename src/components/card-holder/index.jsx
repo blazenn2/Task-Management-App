@@ -10,7 +10,7 @@ import { newBoardCardDragOver, newBoardCardDragLeave, newBoardCardDrop } from '.
 // import useBoardData from '../../custom hooks/useBoardData';
 
 const CardHolder = (props) => {
-    console.log("Card holder renders!")
+    // console.log("Card holder renders!")
     // const [boardData, setBoardData] = useBoardData();
     // console.log(boardData);
 
@@ -40,7 +40,7 @@ const CardHolder = (props) => {
             </div>
             <div className="space-y-3 w-full h-[80%] flex flex-col items-center overflow-y-scroll">
                 <AnimatePresence>
-                    {props.card?.map((value, i) => <Card key={i} chatCount={value.chats.length} onMsgClick={msgClickHandler} date={value.initiatedDate} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} boardData={props.data} changeBoardData={props.changeData} index={i} text={value.title} piority={value.piority} dragItem={dragItem} dragOverItem={dragOverItem} cardTransferFlag={cardTransferFlag} />)}
+                    {props.card?.map((value, i) => <Card key={i} chatCount={value.chats.length} onMsgClick={msgClickHandler} date={value.initiatedDate} participants={value.participants} onBtnClick={btnClickHandler} boardIndex={props.index} boardData={props.data} changeBoardData={props.changeData} index={i} text={value.title} piority={value.piority} dragItem={dragItem} dragOverItem={dragOverItem} cardTransferFlag={cardTransferFlag} editTask={props.editTask} />)}
                 </AnimatePresence>
             </div>
             <div className="absolute bottom-0 w-full h-10 flex items-center justify-center bg-violet-100 z-30">
