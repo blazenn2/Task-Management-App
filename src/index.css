@@ -34,7 +34,3 @@ code {
 	background-color: #bbc2c4;
   border-radius: 10px;
 }
-
-.message-clip {
-  clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
-}

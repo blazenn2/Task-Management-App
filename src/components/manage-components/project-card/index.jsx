@@ -12,9 +12,11 @@ const Card = () => {
                 <p className="text-xs group-hover:text-white">Started Date: 12/01/2022</p>
                 <p className="text-xs group-hover:text-white">Expected End Date: 12/01/2022</p>
             </div>
-            <div className="h-full grow flex items-center justify-center relative">
-                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center"><TiWarningOutline className="scale-150 text-red-700" /></div>
-                <div className="absolute w-36 h-5 bg-black top-0 rounded-md text-white text-xs text-center">Time limit exceeded!</div>
+            <div className="h-full grow flex items-center justify-center group-hover:invisible animate-pulse">
+                <div className="px-4 flex items-center justify-center">
+                    <TiWarningOutline className="scale-150 text-red-700" />
+                </div>
+                <p className="text-red-700 text-sm font-semibold">Time exceeded!</p>
             </div>
             <div className="h-full w-[10%] flex items-center justify-center">
                 <button><FiSettings className="scale-150 text-gray-50" /></button>
