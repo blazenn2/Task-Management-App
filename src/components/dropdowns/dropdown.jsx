@@ -16,7 +16,7 @@ const DropDown = (props) => {
             if (props.editable === 2) piority = "High Piority";
             clickSelectHandler(piority, addCardBtn.current);
         };
-    }, []);
+    }, [props.editable]);
 
     return (
         <div className='relative'>

@@ -1,5 +1,12 @@
 # Pages Documentation
 
+## Manage Page
+### Codes
+`Status Code`
+0 => Missed the deadline of task.
+1 => Completed the task.
+2 => Someone commented on some task.
+
 ## Board page
 ### State Management
 
